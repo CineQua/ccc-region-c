@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm run build"
+    "check:case": "node scripts/check-import-case.mjs",
+    "check": "npm run typecheck && npm run check:case && npm run lint && npm run build"
   },
   "dependencies": {
     "next": "16.3.4",

@@ -10,8 +10,13 @@ React and Tailwind.
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm run check    # typecheck + lint + production build
+npm run check    # typecheck + import-case guard + lint + production build
 ```
+
+`check:case` is part of the gate because this project is developed on Windows
+(case-insensitive) and built on Linux (case-sensitive): an import spelled
+`@/components/ui/Button` for a file named `button.tsx` succeeds locally and fails
+the Vercel build.
 
 ---
 
