@@ -13,6 +13,10 @@ import { ministries } from '@/data/ministries';
  * ministries are included automatically. Sample records are excluded: they must
  * not be submitted to search engines as though they were real listings.
  */
+// Generated once at build time; also keeps the route compatible with
+// `output: 'export'` (see DEPLOYMENT.md).
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 

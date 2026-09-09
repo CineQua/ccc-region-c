@@ -8,6 +8,10 @@ import { siteConfig } from '@/config/site';
  * region's name and tagline, and so no binary asset has to be maintained. Uses
  * only system-safe styling — `next/og` supports a restricted CSS subset.
  */
+// The card has no dynamic inputs, so it is generated once at build time. This
+// also keeps the route compatible with `output: 'export'` (see DEPLOYMENT.md).
+export const dynamic = 'force-static';
+
 export const alt = 'Celestial Church of Christ USA Diocese — Region C';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';

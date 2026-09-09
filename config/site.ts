@@ -4,7 +4,7 @@
  * Every absolute URL, deployment path and organisation-level string used by the
  * application resolves through this module. Nothing else in the codebase should
  * hardcode a domain or a leading path segment, so the site can be re-pointed at
- * `cccusadiocese.org/region-c`, `region-c.cccusadiocese.org` or a preview host
+ * `cccusadiocese.org/region-c`, `regionc.cccusadiocese.org` or a preview host
  * by changing environment variables alone. See DEPLOYMENT.md.
  */
 
@@ -20,7 +20,7 @@ export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 /** Absolute origin the site is served from, without a trailing slash. */
 export const siteOrigin = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://region-c.cccusadiocese.org'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://regionc.cccusadiocese.org'
 ).replace(/\/$/, '');
 
 /** Absolute canonical root of this site, including any deployment sub-path. */
@@ -46,8 +46,8 @@ export const siteConfig = {
    * confirmed by the Region C Secretariat before launch.
    */
   contact: {
-    email: 'info@region-c.cccusadiocese.org',
-    secretariatEmail: 'secretariat@region-c.cccusadiocese.org',
+    email: 'info@regionc.cccusadiocese.org',
+    secretariatEmail: 'secretariat@regionc.cccusadiocese.org',
     phone: '',
     isPlaceholder: true,
   },

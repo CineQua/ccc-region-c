@@ -128,7 +128,7 @@ than an icon package.
 ## Deployment
 
 The site runs from either `cccusadiocese.org/region-c` or
-`region-c.cccusadiocese.org` with no code change — two environment variables
+`regionc.cccusadiocese.org` with no code change — two environment variables
 differ. **See [DEPLOYMENT.md](./DEPLOYMENT.md)** for both arrangements and for
 what the Diocese web administrator has to do in each case.
 
