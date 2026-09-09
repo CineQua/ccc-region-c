@@ -10,6 +10,39 @@ variables differ between the two arrangements.
 
 ---
 
+## Current state of the Diocese site (verified 9 September 2026)
+
+Before choosing an arrangement, note what `cccusadiocese.org` actually runs on
+today, because it constrains the options:
+
+- **Platform: Wix.** The apex A records resolve to `185.230.63.171/.186/.107`,
+  which reverse-resolve to `wixsite.com`; page assets are served from
+  `static.wixstatic.com`.
+- **`region-c.cccusadiocese.org` does not currently resolve** — the subdomain is
+  free, with no conflicting record.
+- The Diocese site organises content by parish and state, and has no existing
+  `/region-c` path or region-based navigation to collide with.
+
+**Consequence: Option A is not achievable while the Diocese remains on Wix.**
+Wix does not provide reverse proxying, URL rewriting to an external host,
+`.htaccess`/Nginx configuration, or the ability to upload a subdirectory of files
+to be served as part of the site. There is no supported Wix mechanism for serving
+this application from `cccusadiocese.org/region-c`.
+
+Putting Cloudflare in front of the domain to rewrite the path is not a workaround
+worth pursuing: Wix manages its own CDN and SSL for the apex, and proxying it is
+unsupported and liable to break certificate renewal on the main Diocese site.
+
+Embedding the region site in an `<iframe>` on a Wix page is technically possible
+and should be rejected: it breaks deep linking, back-button behaviour, SEO
+indexing of parish pages, and mobile scrolling.
+
+**Therefore: deploy Option B now.** Option A remains fully supported in the code
+and becomes a two-variable rebuild plus a proxy rule if the Diocese ever migrates
+off Wix to a platform that can proxy (self-hosted, Vercel, Netlify, Cloudflare).
+
+---
+
 ## Configuration
 
 Both variables are read at **build time**. Changing either one requires a
@@ -25,9 +58,12 @@ hardcodes a domain or a path segment.
 
 ---
 
-## Option A — `cccusadiocese.org/region-c`
+## Option A — `cccusadiocese.org/region-c` (blocked on Wix; retained for later)
 
-The Region C site appears as a section of the Diocese website.
+The Region C site appears as a section of the Diocese website. **Not currently
+achievable** — see the section above. Retained here because the application
+already supports it, and because it is the right destination if the Diocese
+migrates off Wix.
 
 **Build with:**
 
@@ -85,7 +121,7 @@ and someone with access to that infrastructure has to make the change.
 
 ---
 
-## Option B — `region-c.cccusadiocese.org` (recommended first step)
+## Option B — `region-c.cccusadiocese.org` (recommended, and currently the only viable route)
 
 The Region C site is served from its own subdomain.
 
@@ -126,6 +162,62 @@ between the two, so a blanket redirect is sufficient:
 ```
 https://region-c.cccusadiocese.org/*  →  https://cccusadiocese.org/region-c/*
 ```
+
+---
+
+## What to request from the Diocese web administrator
+
+Everything needed for the subdomain launch. Items 1-3 are blocking; the rest are
+housekeeping.
+
+**1. Who holds the domain, and where DNS is actually served from.**
+`cccusadiocese.org` is registered and hosted through Wix, but the authoritative
+nameservers may sit at Wix or at an external registrar, and the record must be
+added wherever the live zone is. Ask specifically: *"Is DNS for the domain managed
+in the Wix dashboard, or at a registrar such as GoDaddy or Namecheap — and who has
+login access?"*
+
+**2. One DNS record.** Ask them to add a single `CNAME`:
+
+| Type | Host / Name | Points to |
+| --- | --- | --- |
+| `CNAME` | `region-c` | supplied once the host is chosen (e.g. `cname.vercel-dns.com`) |
+
+The exact target comes from the hosting provider after the project is created, so
+tell them the record is coming and confirm they are willing to add it. In Wix this
+is Domains → the domain → DNS Records → add a CNAME under subdomains; Wix permits
+a subdomain to point at an external service.
+
+This record does not touch the main Diocese site. It creates a new name alongside
+it and cannot affect `cccusadiocese.org` or `www`.
+
+**3. Written approval to publish under the Diocese domain**, and the name of
+whoever signs off on regional content.
+
+**4. A "Region C" link in the Diocese navigation**, once live, so the
+relationship reads in both directions. This site already links back to the
+Diocese from the header, footer, homepage and contact page.
+
+**5. Confirmation that no `region-c` record already exists.** As of
+9 September 2026 the name does not resolve publicly, but an unpublished or parked
+record would conflict.
+
+**6. Region C's official e-mail addresses** (and a telephone number), to replace
+the placeholders in `config/site.ts`.
+
+### What NOT to ask for
+
+Do not ask for `cccusadiocese.org/region-c` yet. Wix cannot serve it, so the
+request can only produce a "no" or, worse, an attempt to force it with an iframe.
+Ask instead whether the Diocese has any plan to migrate off Wix — if the answer is
+yes, note the path arrangement as the eventual target and revisit then.
+
+### Certificate note
+
+The HTTPS certificate for `region-c.cccusadiocese.org` is issued automatically by
+the host (Vercel, Netlify, Cloudflare Pages) *after* the CNAME resolves. The
+Diocese administrator does not need to supply or install a certificate, and Wix's
+certificate for the main site is unaffected.
 
 ---
 
