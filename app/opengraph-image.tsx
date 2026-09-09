@@ -1,0 +1,93 @@
+import { ImageResponse } from 'next/og';
+import { siteConfig } from '@/config/site';
+
+/**
+ * Default Open Graph card, generated at build time.
+ *
+ * Rendered rather than shipped as a static image so it stays in step with the
+ * region's name and tagline, and so no binary asset has to be maintained. Uses
+ * only system-safe styling — `next/og` supports a restricted CSS subset.
+ */
+export const alt = 'Celestial Church of Christ USA Diocese — Region C';
+export const size = { width: 1200, height: 630 };
+export const contentType = 'image/png';
+
+export default function OpengraphImage() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          padding: '72px',
+          background: 'linear-gradient(135deg, #050b1e 0%, #0f2350 55%, #16336f 100%)',
+          color: '#ffffff',
+          fontFamily: 'Georgia, serif',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '72px',
+              height: '72px',
+              borderRadius: '999px',
+              border: '3px solid #dcb43c',
+              color: '#e9cb63',
+              fontSize: '36px',
+            }}
+          >
+            C
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '24px',
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              color: '#c4d6f4',
+            }}
+          >
+            Celestial Church of Christ
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', fontSize: '72px', lineHeight: 1.1 }}>USA Diocese</div>
+          <div style={{ display: 'flex', fontSize: '72px', lineHeight: 1.1, color: '#e9cb63' }}>
+            Region C
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              marginTop: '28px',
+              fontSize: '30px',
+              color: '#c4d6f4',
+            }}
+          >
+            {siteConfig.tagline}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            fontSize: '22px',
+            color: '#93b4e9',
+          }}
+        >
+          <div style={{ display: 'flex' }}>California · Arizona · Nevada · Washington</div>
+          <div style={{ display: 'flex' }}>cccusadiocese.org</div>
+        </div>
+      </div>
+    ),
+    size,
+  );
+}

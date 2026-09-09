@@ -1,0 +1,123 @@
+@import 'tailwindcss';
+
+/*
+ * Region C design system
+ * ----------------------
+ * Deep celestial navy, white, and restrained gold. The palette is deliberately
+ * narrow: navy carries authority, white carries the whitespace, and gold is used
+ * sparingly for emphasis only — never for large fills, never for body text on
+ * white (it would fail contrast).
+ */
+@theme {
+  /* Celestial navy — the primary brand colour. */
+  --color-celestial-50: #f2f6fd;
+  --color-celestial-100: #e0eafa;
+  --color-celestial-200: #c4d6f4;
+  --color-celestial-300: #93b4e9;
+  --color-celestial-400: #5c8bdb;
+  --color-celestial-500: #2f65c4;
+  --color-celestial-600: #1e4490;
+  --color-celestial-700: #16336f;
+  --color-celestial-800: #0f2350;
+  --color-celestial-900: #0a1633;
+  --color-celestial-950: #050b1e;
+
+  /* Gold — accents, rules, and emphasis marks only. */
+  --color-gold-50: #fdf9e9;
+  --color-gold-100: #faf0c4;
+  --color-gold-200: #f3e099;
+  --color-gold-300: #e9cb63;
+  --color-gold-400: #dcb43c;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a5801c;
+  --color-gold-700: #7d5f18;
+
+  /* Warm neutrals, so white surfaces sit comfortably against the navy. */
+  --color-stone-25: #fcfcfb;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: var(--font-source-serif), ui-serif, Georgia, 'Times New Roman', serif;
+
+  --shadow-card: 0 1px 2px rgb(5 11 30 / 0.04), 0 8px 24px -12px rgb(5 11 30 / 0.12);
+  --shadow-card-hover: 0 2px 4px rgb(5 11 30 / 0.06), 0 16px 40px -16px rgb(5 11 30 / 0.22);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Header is sticky; anchor targets must clear it. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-celestial-900);
+    font-family: var(--font-sans);
+    /* Guards against any single wide child forcing a horizontal scrollbar. */
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.011em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One visible focus treatment everywhere, including on dark surfaces. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-celestial-800);
+    color: var(--color-white);
+  }
+}
+
+@layer components {
+  /* Long-form article body: news posts and other prose blocks. */
+  .prose-region {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-celestial-800);
+  }
+
+  .prose-region > p + p {
+    margin-top: 1.25em;
+  }
+
+  /* Gold rule used beneath section headings. */
+  .rule-gold::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    height: 2px;
+    margin-top: 0.75rem;
+    background-color: var(--color-gold-500);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
