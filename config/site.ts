@@ -16,12 +16,30 @@
  * `public/` automatically once `basePath` is set, so application code should keep
  * writing root-relative paths such as `/parishes`.
  */
-export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+export const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? '').trim().replace(/\/$/, '');
 
-/** Absolute origin the site is served from, without a trailing slash. */
-export const siteOrigin = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://regionc.cccusadiocese.org'
-).replace(/\/$/, '');
+/**
+ * Absolute origin the site is served from, without a trailing slash.
+ *
+ * Hosting dashboards let a variable be saved with an empty value, which is not
+ * the same as unset: `??` would pass the empty string through and `new URL('')`
+ * then fails the build. A blank value therefore falls back to the default, and
+ * a bare hostname (`regionc.cccusadiocese.org`) is given its missing scheme.
+ */
+export const siteOrigin = normaliseOrigin(
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://regionc.cccusadiocese.org',
+);
+
+function normaliseOrigin(value: string): string {
+  const withScheme = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    return new URL(withScheme).origin;
+  } catch {
+    throw new Error(
+      `NEXT_PUBLIC_SITE_URL is not a valid URL: "${value}". Expected e.g. https://regionc.cccusadiocese.org`,
+    );
+  }
+}
 
 /** Absolute canonical root of this site, including any deployment sub-path. */
 export const siteUrl = `${siteOrigin}${basePath}`;

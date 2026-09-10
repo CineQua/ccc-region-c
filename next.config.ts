@@ -15,7 +15,9 @@ import type { NextConfig } from 'next';
  * `assetPrefix` is tied to the same value so static chunks resolve correctly; it
  * can be pointed at a CDN later without touching anything else.
  */
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+// Trimmed so a value saved as blank or with stray whitespace in a hosting
+// dashboard means "no sub-path". Mirrors `basePath` in config/site.ts.
+const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? '').trim().replace(/\/$/, '');
 
 /**
  * Static-export mode, for hosts that cannot run Node (GitHub Pages and similar).
