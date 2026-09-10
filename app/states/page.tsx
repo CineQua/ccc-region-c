@@ -2,13 +2,13 @@ import { Container } from '@/components/ui/container';
 import { Breadcrumbs, PageHeader, SectionHeading } from '@/components/ui/primitives';
 import { StateCard } from '@/components/home/explore-region';
 import { buildMetadata } from '@/lib/metadata';
-import { orderedStates } from '@/data/states';
+import { siteConfig } from '@/config/site';
+import { confirmedStateList, confirmedStates, orderedStates } from '@/data/states';
 import { countParishesByState } from '@/data/parishes';
 
 export const metadata = buildMetadata({
   title: 'Region C States',
-  description:
-    'The United States served by Region C of the Celestial Church of Christ USA Diocese: California, Arizona, Nevada and Washington.',
+  description: `The ${confirmedStates.length} states served by Region C of the Celestial Church of Christ USA Diocese: ${confirmedStateList}.`,
   path: '/states',
 });
 
@@ -20,7 +20,7 @@ export default function StatesPage() {
       <PageHeader
         eyebrow="Region C"
         title="Region C States"
-        description="Region C serves Celestial Church of Christ parishes across the western United States. Additional Region C states will be listed here as they are confirmed by the Diocese."
+        description={`Region C serves Celestial Church of Christ parishes across ${confirmedStates.length} states of the western United States.`}
       />
       <Breadcrumbs
         trail={[
@@ -50,10 +50,10 @@ export default function StatesPage() {
               Is your state part of Region C?
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-relaxed text-celestial-600">
-              The states listed above are those confirmed for Region C. Further Region C states are
-              expected, and will appear here once the Diocese has confirmed them. If you worship at a
-              Celestial Church of Christ parish in a state that is not listed, contact the Region C
-              Secretariat.
+              Region C comprises the {confirmedStates.length} states listed above. Celestial Church
+              of Christ parishes in other states belong to another region of the{' '}
+              {siteConfig.diocese}. If you are unsure which region your parish belongs to, contact
+              the Region C Secretariat.
             </p>
           </div>
         </Container>

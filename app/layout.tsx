@@ -6,6 +6,7 @@ import { SiteFooter } from '@/components/layout/site-footer';
 import { JsonLd } from '@/components/ui/primitives';
 import { organisationJsonLd } from '@/lib/metadata';
 import { siteConfig, siteUrl } from '@/config/site';
+import { confirmedStates } from '@/data/states';
 
 /*
  * Typography: a transitional serif for headings gives the ecclesiastical,
@@ -48,10 +49,7 @@ export const metadata: Metadata = {
     'Celestial Church of Christ',
     'CCC USA Diocese',
     'Region C',
-    'CCC parishes California',
-    'CCC parishes Arizona',
-    'CCC parishes Nevada',
-    'CCC parishes Washington',
+    ...confirmedStates.map((state) => `CCC parishes ${state.name}`),
   ],
 };
 

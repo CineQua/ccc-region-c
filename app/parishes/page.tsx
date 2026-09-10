@@ -4,12 +4,11 @@ import { Breadcrumbs, PageHeader, PlaceholderNotice } from '@/components/ui/prim
 import { ParishDirectory } from '@/components/parish/parish-directory';
 import { buildMetadata } from '@/lib/metadata';
 import { orderedParishes, parishDirectoryIsSample } from '@/data/parishes';
-import { orderedStates } from '@/data/states';
+import { confirmedStates, orderedStates } from '@/data/states';
 
 export const metadata = buildMetadata({
   title: 'Parish Directory',
-  description:
-    'Find a Celestial Church of Christ parish in Region C. Search the regional directory by parish name, city or state across California, Arizona, Nevada and Washington.',
+  description: `Find a Celestial Church of Christ parish in Region C. Search the regional directory by parish name, city or state across the ${confirmedStates.length} Region C states.`,
   path: '/parishes',
 });
 

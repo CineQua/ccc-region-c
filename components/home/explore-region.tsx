@@ -43,10 +43,6 @@ export function ExploreRegion() {
             </li>
           ))}
         </ul>
-
-        <p className="mt-6 text-sm text-celestial-600">
-          Additional Region C states will be listed here as they are confirmed by the Diocese.
-        </p>
       </Container>
     </section>
   );

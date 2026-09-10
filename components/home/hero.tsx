@@ -28,7 +28,7 @@ export function Hero() {
 
           <p className="mt-5 max-w-xl text-base leading-relaxed text-celestial-200">
             Region C is the regional body serving Celestial Church of Christ parishes across{' '}
-            {formatStateList(confirmedStates.map((state) => state.name))}. This is the hub for our
+            {confirmedStates.length} states of the western United States. This is the hub for our
             parishes, ministries, regional programmes and administration.
           </p>
 
@@ -53,10 +53,4 @@ export function Hero() {
       <div aria-hidden="true" className="h-1 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600" />
     </section>
   );
-}
-
-/** "California, Arizona, Nevada and Washington" */
-function formatStateList(names: string[]): string {
-  if (names.length <= 1) return names[0] ?? 'the western United States';
-  return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
 }

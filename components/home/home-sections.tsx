@@ -48,7 +48,8 @@ export function FindAParish() {
             <p className="mt-2 text-sm leading-relaxed text-celestial-600">
               Jump straight to the parishes in a Region C state.
             </p>
-            <ul className="mt-5 space-y-2">
+            {/* Two columns keep eleven states from towering over the parish cards. */}
+            <ul className="mt-5 grid grid-cols-2 gap-2">
               {orderedStates.map((state) => (
                 <li key={state.code}>
                   <Link

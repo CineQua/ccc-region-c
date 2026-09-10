@@ -90,6 +90,11 @@ function stripYear(label: string): string {
   return label.replace(/,\s*\d{4}$/, '');
 }
 
+/** Join names as US-English prose: `formatList(['A', 'B', 'C'])` -> "A, B, and C". */
+export function formatList(items: string[]): string {
+  return new Intl.ListFormat('en-US', { style: 'long', type: 'conjunction' }).format(items);
+}
+
 /** Pluralise a count for short stat labels: `pluralise(1, 'Parish', 'Parishes')`. */
 export function pluralise(count: number, singular: string, plural: string): string {
   return count === 1 ? singular : plural;

@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { siteConfig } from '@/config/site';
+import { confirmedStates } from '@/data/states';
 
 /**
  * Default Open Graph card, generated at build time.
@@ -87,7 +88,10 @@ export default function OpengraphImage() {
             color: '#93b4e9',
           }}
         >
-          <div style={{ display: 'flex' }}>California · Arizona · Nevada · Washington</div>
+          {/* Eleven names will not fit on one line of the card, so give the count. */}
+          <div style={{ display: 'flex' }}>
+            Serving {confirmedStates.length} states of the western United States
+          </div>
           <div style={{ display: 'flex' }}>cccusadiocese.org</div>
         </div>
       </div>

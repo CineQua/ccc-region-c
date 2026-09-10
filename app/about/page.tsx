@@ -6,15 +6,14 @@ import { StateCard } from '@/components/home/explore-region';
 import { IconArrowRight, IconExternal } from '@/components/ui/icons';
 import { buildMetadata } from '@/lib/metadata';
 import { siteConfig } from '@/config/site';
-import { orderedStates } from '@/data/states';
+import { confirmedStateList, confirmedStates, orderedStates } from '@/data/states';
 import { countParishesByState } from '@/data/parishes';
 import { orderedLeadership, principalLeaders } from '@/data/leadership';
 import { ministries } from '@/data/ministries';
 
 export const metadata = buildMetadata({
   title: 'About Region C',
-  description:
-    'Region C is the regional body of the Celestial Church of Christ USA Diocese serving parishes across California, Arizona, Nevada and Washington.',
+  description: `Region C is the regional body of the Celestial Church of Christ USA Diocese serving parishes across ${confirmedStateList}.`,
   path: '/about',
 });
 
@@ -71,12 +70,11 @@ export default function AboutPage() {
           <div className="grid gap-4 sm:grid-cols-3">
             <Card className="p-6">
               <p className="font-serif text-4xl font-semibold text-celestial-900">
-                {orderedStates.length}
+                {confirmedStates.length}
               </p>
               <h3 className="mt-2 text-base font-semibold text-celestial-800">Confirmed states</h3>
               <p className="mt-2 text-sm leading-relaxed text-celestial-600">
-                California, Arizona, Nevada and Washington. Further Region C states will be added as
-                the Diocese confirms them.
+                {confirmedStateList}.
               </p>
             </Card>
             <Card className="p-6">
