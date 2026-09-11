@@ -21,8 +21,8 @@ import type { Leader } from '@/lib/types';
  */
 export const leadership: Leader[] = [
   {
-    id: 'joe-awosika',
-    name: 'Joe Awosika',
+    id: 'joseph-awosika',
+    name: 'Joseph Awosika',
     ecclesiasticalTitle: 'V/S/E.',
     office: 'Region C Supervisor',
     tier: 'principal',
@@ -218,7 +218,7 @@ export function getLeadersByPortfolio(portfolio: Leader['portfolio']): Leader[] 
   return orderedLeadership.filter((leader) => leader.portfolio === portfolio);
 }
 
-/** Full display name, e.g. "V/S/E. Joe Awosika". */
+/** Full display name, e.g. "V/S/E. Joseph Awosika". */
 export function leaderFullName(leader: Leader): string {
   return `${leader.ecclesiasticalTitle} ${leader.name}`.trim();
 }
