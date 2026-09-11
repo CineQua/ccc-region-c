@@ -11,9 +11,9 @@ import { cn } from '@/lib/cn';
  * and Deputy (larger portrait, office given prominence) and `standard` for the
  * wider executive.
  *
- * Headshots have not been supplied, so the portrait area falls back to a
- * monogram. When `leader.image` is populated the card switches to the photo with
- * no other change — see `data/leadership.ts`.
+ * A leader without a headshot falls back to a monogram; setting `leader.image`
+ * switches that card to the photograph with no other change — see
+ * `data/leadership.ts`.
  */
 export function LeaderCard({
   leader,

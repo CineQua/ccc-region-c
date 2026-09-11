@@ -13,8 +13,12 @@ import type { Leader } from '@/lib/types';
  * the artwork.
  *
  * Not yet supplied, and therefore intentionally absent rather than invented:
- * individual headshots, biographies, parish/state affiliations and e-mail
- * addresses. Cards degrade gracefully to initials until `image` is populated.
+ * biographies, parish/state affiliations and e-mail addresses, and headshots for
+ * everyone but the Deputy Regional Supervisor. Cards degrade gracefully to
+ * initials until `image` is populated.
+ *
+ * Headshots live in `public/images/`, web-sized; the full-resolution originals
+ * are kept in `assets/leadership/`, which is outside the served directory.
  *
  * To update leadership, edit this file only — no page or component changes are
  * required.
@@ -23,7 +27,7 @@ export const leadership: Leader[] = [
   {
     id: 'joseph-awosika',
     name: 'Joseph Awosika',
-    ecclesiasticalTitle: 'V/S/E.',
+    ecclesiasticalTitle: 'VSE',
     office: 'Region C Supervisor',
     tier: 'principal',
     portfolio: 'Regional Office',
@@ -32,7 +36,8 @@ export const leadership: Leader[] = [
   {
     id: 'yomi-dodo-williams',
     name: 'Yomi Dodo-Williams',
-    ecclesiasticalTitle: 'V/S/E.',
+    ecclesiasticalTitle: 'VSE',
+    image: '/images/vse-yomi-dodo-williams.jpg',
     office: 'Region C Deputy Regional Supervisor',
     tier: 'principal',
     portfolio: 'Regional Office',
@@ -41,7 +46,7 @@ export const leadership: Leader[] = [
   {
     id: 'amos-adeoye',
     name: 'Amos Adeoye',
-    ecclesiasticalTitle: 'V/S/E.',
+    ecclesiasticalTitle: 'VSE',
     office: 'Shepherd & Region C States Supervisor',
     tier: 'executive',
     portfolio: 'Regional Office',
@@ -68,7 +73,7 @@ export const leadership: Leader[] = [
   {
     id: 'abiodun-awosika',
     name: 'Abiodun Awosika',
-    ecclesiasticalTitle: 'HMSE.',
+    ecclesiasticalTitle: 'HMSE',
     office: 'Financial Secretary',
     tier: 'executive',
     portfolio: 'Administration',
@@ -86,7 +91,7 @@ export const leadership: Leader[] = [
   {
     id: 'james-adubi',
     name: 'James Adubi',
-    ecclesiasticalTitle: 'A/V/S/E.',
+    ecclesiasticalTitle: 'AVSE',
     office: 'Shepherd & Special Duties Officer',
     tier: 'executive',
     portfolio: 'Administration',
@@ -95,7 +100,7 @@ export const leadership: Leader[] = [
   {
     id: 'richard-anisere',
     name: 'Richard Anisere',
-    ecclesiasticalTitle: 'V/S/E.',
+    ecclesiasticalTitle: 'VSE',
     office: 'Evangelism Director',
     tier: 'executive',
     portfolio: 'Evangelism',
@@ -104,7 +109,7 @@ export const leadership: Leader[] = [
   {
     id: 'yves-goncalves',
     name: 'Yves Goncalves',
-    ecclesiasticalTitle: 'A/V/S/E.',
+    ecclesiasticalTitle: 'AVSE',
     office: 'Evangelism Deputy Director',
     tier: 'executive',
     portfolio: 'Evangelism',
@@ -113,7 +118,7 @@ export const leadership: Leader[] = [
   {
     id: 'issac-awolope',
     name: 'Issac Awolope',
-    ecclesiasticalTitle: 'A/V/S/E.',
+    ecclesiasticalTitle: 'AVSE',
     office: 'Shepherd & Grand Patron',
     tier: 'executive',
     portfolio: 'Shepherding',
@@ -122,7 +127,7 @@ export const leadership: Leader[] = [
   {
     id: 'tunde-clement',
     name: 'Tunde Clement',
-    ecclesiasticalTitle: 'A/V/S/E.',
+    ecclesiasticalTitle: 'AVSE',
     office: 'Shepherd, Discipline & Reconciliation Chairman',
     tier: 'executive',
     portfolio: 'Shepherding',
@@ -131,7 +136,7 @@ export const leadership: Leader[] = [
   {
     id: 'chris-isibor',
     name: 'Chris Isibor',
-    ecclesiasticalTitle: 'A/V/S/E.',
+    ecclesiasticalTitle: 'AVSE',
     office: 'Shepherd & Protocol',
     tier: 'executive',
     portfolio: 'Shepherding',
@@ -140,7 +145,7 @@ export const leadership: Leader[] = [
   {
     id: 'raphael-akinmoladun',
     name: 'Raphael Akinmoladun',
-    ecclesiasticalTitle: 'Sp. Ev.',
+    ecclesiasticalTitle: 'VSE',
     office: 'Shepherd & Member',
     tier: 'executive',
     portfolio: 'Shepherding',
@@ -167,7 +172,7 @@ export const leadership: Leader[] = [
   {
     id: 'kehinde-adebayo',
     name: 'Kehinde Adebayo',
-    ecclesiasticalTitle: 'Sn. Prophetess',
+    ecclesiasticalTitle: 'Prophetess',
     office: 'Youth Coordinator',
     tier: 'executive',
     portfolio: 'Youth',
@@ -218,7 +223,7 @@ export function getLeadersByPortfolio(portfolio: Leader['portfolio']): Leader[] 
   return orderedLeadership.filter((leader) => leader.portfolio === portfolio);
 }
 
-/** Full display name, e.g. "V/S/E. Joseph Awosika". */
+/** Full display name, e.g. "VSE Joseph Awosika". */
 export function leaderFullName(leader: Leader): string {
   return `${leader.ecclesiasticalTitle} ${leader.name}`.trim();
 }
