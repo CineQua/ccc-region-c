@@ -57,7 +57,8 @@ export interface Parish {
   slug: string;
   /** USPS state code, matching `RegionState.code`. */
   state: string;
-  city: string;
+  /** Omitted when only the state is known; the parish is then shown by state alone. */
+  city?: string;
   address?: string;
   shepherd?: string;
   phone?: string;

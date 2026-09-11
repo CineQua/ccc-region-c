@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { stateName } from '@/data/states';
+import { parishLocation } from '@/data/parishes';
 import type { Parish } from '@/lib/types';
 import { Badge } from '@/components/ui/primitives';
 import { IconArrowRight, IconChurch, IconMapPin } from '@/components/ui/icons';
@@ -30,7 +30,7 @@ export function ParishCard({ parish }: { parish: Parish }) {
 
       <p className="mt-2 flex items-center gap-1.5 text-sm text-celestial-600">
         <IconMapPin className="h-4 w-4 shrink-0 text-celestial-400" />
-        {parish.city}, {stateName(parish.state)}
+        {parishLocation(parish)}
       </p>
 
       {parish.shepherd ? (

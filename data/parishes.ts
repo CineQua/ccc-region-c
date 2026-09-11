@@ -1,79 +1,103 @@
 import type { Parish } from '@/lib/types';
-import { orderedStates } from './states';
+import { orderedStates, stateName } from './states';
 
 /**
  * Region C parish directory.
  *
- * IMPORTANT: every record below is SAMPLE CONTENT, flagged with
- * `isPlaceholder: true` and surfaced in the UI as such. No real parish name,
- * address, shepherd, telephone number or service time has been invented.
+ * Source: the CCC USA Diocese parish directory at
+ * https://www.cccusadiocese.org/jobs/account-director (the page the Diocese's
+ * /parishes state links open), transcribed 2026-09-10. Only parishes in a Region
+ * C state are included; the Diocese lists none yet for Colorado, Idaho, Montana,
+ * Nevada, New Mexico, Oregon, Utah, Washington or Wyoming.
  *
- * When the verified Region C parish list is supplied, replace this array
- * wholesale and remove the `isPlaceholder` flags. The directory, state pages,
- * search, filtering and counters are all driven from this one file and will
- * scale to dozens of parishes without layout changes.
+ * Transcribed as published, with formatting tidied only (spacing, stray
+ * punctuation, "Los-Angeles"). Nothing has been added: the source gives no
+ * service times or descriptions, so none appear. Details the Region C
+ * Secretariat should confirm are noted beside the record.
+ *
+ * Region C corrections to the Diocese listing (2026-09-10): every shepherd now
+ * holds the rank VSE; Hephzibah-Beulah Parish (Gardena), Oakland Parish and
+ * Sanctuary of the Lord Parish are removed from the Region C listing; LA Mother
+ * Parish (El Monte), absent from the Diocese listing, is added; Eternal Ark of
+ * Covenant Parish's listed address is out of date and is withheld.
  */
 export const parishes: Parish[] = [
   {
-    id: 'sample-ca-1',
-    name: 'Sample Parish — Los Angeles',
-    slug: 'sample-parish-los-angeles',
-    state: 'CA',
-    city: 'Los Angeles',
-    description:
-      'Example record showing how a Region C parish will appear in the directory once verified details are supplied by the Secretariat.',
-    serviceTimes: [
-      { label: 'Sunday Service', day: 'Sunday', time: 'Time to be confirmed' },
-      { label: 'Midweek Service', day: 'Wednesday', time: 'Time to be confirmed' },
-    ],
-    isPlaceholder: true,
-  },
-  {
-    id: 'sample-ca-2',
-    name: 'Sample Parish — Sacramento',
-    slug: 'sample-parish-sacramento',
-    state: 'CA',
-    city: 'Sacramento',
-    description:
-      'Example record demonstrating multiple parishes within a single Region C state.',
-    isPlaceholder: true,
-  },
-  {
-    id: 'sample-ca-3',
-    name: 'Sample Parish — Oakland',
-    slug: 'sample-parish-oakland',
-    state: 'CA',
-    city: 'Oakland',
-    description:
-      'Example record demonstrating city-level browsing within the parish directory.',
-    isPlaceholder: true,
-  },
-  {
-    id: 'sample-az-1',
-    name: 'Sample Parish — Phoenix',
-    slug: 'sample-parish-phoenix',
+    id: 'az-arizona-central',
+    name: 'Arizona Central Parish',
+    slug: 'arizona-central-parish',
     state: 'AZ',
     city: 'Phoenix',
-    description: 'Example record for Arizona pending confirmed parish details.',
-    isPlaceholder: true,
+    address: '6245 N 35th Avenue, Unit 2, Phoenix, AZ 85017',
+    // 818 is a Los Angeles-area code; confirm this is the parish's number.
+    phone: '818-439-6043',
+    email: 'oduac@yahoo.com',
+    shepherd: 'VSE Christopher Isibor',
   },
   {
-    id: 'sample-nv-1',
-    name: 'Sample Parish — Las Vegas',
-    slug: 'sample-parish-las-vegas',
-    state: 'NV',
-    city: 'Las Vegas',
-    description: 'Example record for Nevada pending confirmed parish details.',
-    isPlaceholder: true,
+    id: 'ca-comforter',
+    name: 'Comforter Parish',
+    slug: 'comforter-parish',
+    state: 'CA',
+    city: 'Los Angeles',
+    address: '7623-25 South Vermont Avenue, Los Angeles, CA 90044',
+    phone: '310-350-3328',
+    email: 'adeayinde@aol.com',
+    shepherd: 'VSE Amos Adeoye',
   },
   {
-    id: 'sample-wa-1',
-    name: 'Sample Parish — Seattle',
-    slug: 'sample-parish-seattle',
-    state: 'WA',
-    city: 'Seattle',
-    description: 'Example record for Washington pending confirmed parish details.',
-    isPlaceholder: true,
+    id: 'ca-sanctum',
+    name: 'Sanctum Parish',
+    slug: 'sanctum-parish',
+    state: 'CA',
+    city: 'Bloomington',
+    address: '11750 Cedar Avenue, Bloomington, CA 92316',
+    phone: '909-996-2397',
+    email: 'celestialsanctumparish@gmail.com',
+    website: 'https://www.celestialsanctumparish.org',
+    shepherd: 'VSE Yomi Dodo-Williams',
+  },
+  {
+    id: 'ca-la-mother',
+    name: 'LA Mother Parish',
+    slug: 'la-mother-parish',
+    state: 'CA',
+    city: 'El Monte',
+    address: '2600 Tyler Avenue, El Monte, CA 91733',
+    // Supplied by Region C; phone, e-mail and shepherd still to be provided.
+  },
+  {
+    id: 'ca-oshoffa',
+    name: 'Oshoffa Parish',
+    slug: 'oshoffa-parish',
+    state: 'CA',
+    city: 'Gardena',
+    address: '13425 South Normandie Avenue, Gardena, CA 90249',
+    phone: '310-946-5383',
+    email: 'josephawosika@att.net',
+    shepherd: 'VSE Joseph Awosika',
+  },
+  {
+    id: 'ca-eternal-ark-of-covenant',
+    name: 'Eternal Ark of Covenant Parish',
+    slug: 'eternal-ark-of-covenant-parish',
+    state: 'CA',
+    city: 'Los Angeles',
+    // The Diocese listing's address (8803 S Broadway Street) is out of date, so
+    // none is shown until the current one is supplied. Phone and e-mail are from
+    // that same listing; confirm them.
+    phone: '323-833-2746',
+    email: 'e.arkofcovenantparish@yahoo.com',
+    // The source lists www.cccebenezeryparish.com, which does not respond and
+    // appears to belong to a different parish, so it is omitted.
+    shepherd: 'VSE Tunde Clement',
+  },
+  {
+    id: 'ca-patmos-sanctuary',
+    name: 'Patmos Sanctuary Parish',
+    slug: 'patmos-sanctuary-parish',
+    state: 'CA',
+    // Supplied by Region C with no address yet; listed by state alone.
   },
 ];
 
@@ -85,7 +109,8 @@ export const parishDirectoryIsSample: boolean =
 export const orderedParishes: Parish[] = [...parishes].sort((a, b) => {
   const stateCompare = stateSortKey(a.state).localeCompare(stateSortKey(b.state));
   if (stateCompare !== 0) return stateCompare;
-  const cityCompare = a.city.localeCompare(b.city);
+  // A parish listed by state alone sorts ahead of the cities in that state.
+  const cityCompare = (a.city ?? '').localeCompare(b.city ?? '');
   if (cityCompare !== 0) return cityCompare;
   return a.name.localeCompare(b.name);
 });
@@ -111,5 +136,13 @@ export function countParishesByState(): Record<string, number> {
 
 /** Distinct cities represented in the directory, alphabetically. */
 export function parishCities(): string[] {
-  return [...new Set(parishes.map((parish) => parish.city))].sort((a, b) => a.localeCompare(b));
+  return [...new Set(parishes.flatMap((parish) => (parish.city ? [parish.city] : [])))].sort(
+    (a, b) => a.localeCompare(b),
+  );
+}
+
+/** "Oakland, California", or "California" when only the state is known. */
+export function parishLocation(parish: Parish): string {
+  const state = stateName(parish.state);
+  return parish.city ? `${parish.city}, ${state}` : state;
 }

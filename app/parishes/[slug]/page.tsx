@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/icons';
 import { buildMetadata, breadcrumbJsonLd } from '@/lib/metadata';
 import { absoluteUrl } from '@/config/site';
-import { getParishBySlug, getParishesByState, parishes } from '@/data/parishes';
+import { getParishBySlug, getParishesByState, parishes, parishLocation } from '@/data/parishes';
 import { getStateByCode, stateName } from '@/data/states';
 
 interface PageProps {
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: PageProps) {
     title: parish.name,
     description:
       parish.description ??
-      `${parish.name} is a Celestial Church of Christ parish in ${parish.city}, ${stateName(parish.state)}, within Region C of the CCC USA Diocese.`,
+      `${parish.name} is a Celestial Church of Christ parish in ${parishLocation(parish)}, within Region C of the CCC USA Diocese.`,
     path: `/parishes/${parish.slug}`,
     // Sample records must never be indexed as though they were real parishes.
     noIndex: parish.isPlaceholder,
@@ -74,7 +74,7 @@ export default async function ParishPage({ params }: PageProps) {
       >
         <p className="flex items-center gap-2 text-celestial-100">
           <IconMapPin className="h-5 w-5 text-gold-300" aria-hidden="true" />
-          {parish.address ?? `${parish.city}, ${stateName(parish.state)}`}
+          {parish.address ?? parishLocation(parish)}
         </p>
       </PageHeader>
 
@@ -163,7 +163,7 @@ export default async function ParishPage({ params }: PageProps) {
                           <br />
                         </>
                       ) : null}
-                      {parish.city}, {stateName(parish.state)}
+                      {parishLocation(parish)}
                     </dd>
                   </div>
 
@@ -273,8 +273,8 @@ export default async function ParishPage({ params }: PageProps) {
             ...(parish.email ? { email: parish.email } : {}),
             address: {
               '@type': 'PostalAddress',
-              ...(parish.address ? { streetAddress: parish.address } : {}),
-              addressLocality: parish.city,
+              ...(parish.address ? splitAddress(parish.address) : {}),
+              ...(parish.city ? { addressLocality: parish.city } : {}),
               addressRegion: parish.state,
               addressCountry: 'US',
             },
@@ -292,4 +292,15 @@ export default async function ParishPage({ params }: PageProps) {
       ) : null}
     </>
   );
+}
+
+/**
+ * Parish addresses are stored whole ("4001 Webster Street, Oakland, CA 94607")
+ * because that is how they are displayed. schema.org wants the street alone,
+ * with city and state carried separately, so trim the trailing locality and
+ * lift out the ZIP code when the address ends in the usual form.
+ */
+function splitAddress(address: string): { streetAddress: string; postalCode?: string } {
+  const match = address.match(/^(.*?),\s*[^,]+,\s*[A-Z]{2}\s+(\d{5}(?:-\d{4})?)$/);
+  return match ? { streetAddress: match[1], postalCode: match[2] } : { streetAddress: address };
 }

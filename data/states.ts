@@ -22,8 +22,7 @@ export const states: RegionState[] = [
     name: 'Arizona',
     slug: 'arizona',
     status: 'confirmed',
-    summary:
-      'Celestial Church of Christ worshippers across the Phoenix and Tucson corridors are served within Region C.',
+    summary: 'Region C serves Celestial Church of Christ parishes and members throughout Arizona.',
   },
   {
     code: 'CA',
@@ -60,8 +59,7 @@ export const states: RegionState[] = [
     name: 'Nevada',
     slug: 'nevada',
     status: 'confirmed',
-    summary:
-      'Region C parishes in Nevada serve members in the Las Vegas and Reno metropolitan areas.',
+    summary: 'Region C serves Celestial Church of Christ parishes and members throughout Nevada.',
   },
   {
     code: 'NM',

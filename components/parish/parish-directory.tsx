@@ -42,7 +42,9 @@ export function ParishDirectory({
   const cities = useMemo(() => {
     const scope =
       selectedState === 'all' ? parishes : parishes.filter((p) => p.state === selectedState);
-    return [...new Set(scope.map((p) => p.city))].sort((a, b) => a.localeCompare(b));
+    return [...new Set(scope.flatMap((p) => (p.city ? [p.city] : [])))].sort((a, b) =>
+      a.localeCompare(b),
+    );
   }, [parishes, selectedState]);
 
   const results = useMemo(() => {
