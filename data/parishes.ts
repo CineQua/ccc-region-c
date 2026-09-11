@@ -1,4 +1,4 @@
-import type { Parish } from '@/lib/types';
+import type { Parish, ParishSocial } from '@/lib/types';
 import { orderedStates, stateName } from './states';
 
 /**
@@ -18,8 +18,9 @@ import { orderedStates, stateName } from './states';
  * Region C corrections to the Diocese listing (2026-09-10): every shepherd now
  * holds the rank VSE; Hephzibah-Beulah Parish (Gardena), Oakland Parish and
  * Sanctuary of the Lord Parish are removed from the Region C listing; LA Mother
- * Parish (El Monte), absent from the Diocese listing, is added; Eternal Ark of
- * Covenant Parish's listed address is out of date and is withheld.
+ * Parish (El Monte), Patmos Sanctuary Parish and San Diego Central Parish,
+ * absent from the Diocese listing, are added; Eternal Ark of Covenant Parish's
+ * listed address is out of date and is withheld.
  */
 export const parishes: Parish[] = [
   {
@@ -55,7 +56,29 @@ export const parishes: Parish[] = [
     phone: '909-996-2397',
     email: 'celestialsanctumparish@gmail.com',
     website: 'https://www.celestialsanctumparish.org',
+    // The parish website names no shepherd; this is from the Diocese listing.
     shepherd: 'VSE Yomi Dodo-Williams',
+    // Description, service times and social links are from the parish's own
+    // website (visit, about and contact pages), read 2026-09-11.
+    description:
+      'Celestial Sanctum Parish, meaning "heavenly sanctuary", began in 1999 in a small home room in Rancho Cucamonga and is now established in Bloomington. Its mission is to win and nurture souls for the kingdom of God.',
+    serviceTimes: [
+      { label: 'Worship', day: 'Sunday', time: '10 AM – 2 PM' },
+      { label: 'Bible Study', day: 'Monday', time: '8 PM' },
+      { label: 'Prophesying Into Your Situation', day: 'Tuesday', time: '8 PM' },
+      { label: 'Seeker Service', day: 'Wednesday', time: '9 AM' },
+      { label: 'Midnight Vigil', day: 'Thursday', time: '12 AM' },
+      { label: 'Power Day Service', day: 'Friday', time: '9:30 PM' },
+      { label: "Women's Fellowship", day: 'Saturday', time: '5 PM' },
+    ],
+    social: {
+      facebook: 'https://www.facebook.com/celestialsanctumparish',
+      instagram: 'https://instagram.com/sanctumparish',
+      youtube: 'https://youtube.com/user/cccSanctumParish',
+      x: 'https://twitter.com/SanctumParish',
+      vimeo: 'https://vimeo.com/celestialsanctumparish',
+      spotify: 'https://open.spotify.com/show/0lQ2H8kaRG8nl6InuGUcC6',
+    },
   },
   {
     id: 'ca-la-mother',
@@ -64,7 +87,8 @@ export const parishes: Parish[] = [
     state: 'CA',
     city: 'El Monte',
     address: '2600 Tyler Avenue, El Monte, CA 91733',
-    // Supplied by Region C; phone, e-mail and shepherd still to be provided.
+    // Supplied by Region C; phone and e-mail still to be provided.
+    shepherd: 'VSE Raphael Akinmoladun',
   },
   {
     id: 'ca-oshoffa',
@@ -91,6 +115,16 @@ export const parishes: Parish[] = [
     // The source lists www.cccebenezeryparish.com, which does not respond and
     // appears to belong to a different parish, so it is omitted.
     shepherd: 'VSE Tunde Clement',
+  },
+  {
+    id: 'ca-san-diego-central',
+    name: 'San Diego Central Parish',
+    slug: 'san-diego-central-parish',
+    state: 'CA',
+    city: 'San Diego',
+    // Supplied by Region C; the Facebook page confirms the name and city but
+    // gives no address, phone or shepherd.
+    social: { facebook: 'https://www.facebook.com/cccsandiegoparish/' },
   },
   {
     id: 'ca-patmos-sanctuary',
@@ -139,6 +173,24 @@ export function parishCities(): string[] {
   return [...new Set(parishes.flatMap((parish) => (parish.city ? [parish.city] : [])))].sort(
     (a, b) => a.localeCompare(b),
   );
+}
+
+/** Display labels, in the order social links are listed. */
+const SOCIAL_LABELS: Record<keyof ParishSocial, string> = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  youtube: 'YouTube',
+  x: 'X (Twitter)',
+  vimeo: 'Vimeo',
+  spotify: 'Spotify',
+};
+
+/** A parish's social media accounts as labelled links, in a fixed order. */
+export function parishSocialLinks(parish: Parish): { label: string; url: string }[] {
+  return (Object.keys(SOCIAL_LABELS) as (keyof ParishSocial)[]).flatMap((key) => {
+    const url = parish.social?.[key];
+    return url ? [{ label: SOCIAL_LABELS[key], url }] : [];
+  });
 }
 
 /** "Oakland, California", or "California" when only the state is known. */

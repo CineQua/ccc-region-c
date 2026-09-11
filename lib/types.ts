@@ -64,6 +64,8 @@ export interface Parish {
   phone?: string;
   email?: string;
   website?: string;
+  /** Full URLs of the parish's social media accounts. */
+  social?: ParishSocial;
   image?: string;
   latitude?: number;
   longitude?: number;
@@ -71,6 +73,15 @@ export interface Parish {
   description?: string;
   /** True while the record is illustrative sample content, not verified data. */
   isPlaceholder?: boolean;
+}
+
+export interface ParishSocial {
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  x?: string;
+  vimeo?: string;
+  spotify?: string;
 }
 
 export interface ServiceTime {

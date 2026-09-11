@@ -20,7 +20,13 @@ import {
 } from '@/components/ui/icons';
 import { buildMetadata, breadcrumbJsonLd } from '@/lib/metadata';
 import { absoluteUrl } from '@/config/site';
-import { getParishBySlug, getParishesByState, parishes, parishLocation } from '@/data/parishes';
+import {
+  getParishBySlug,
+  getParishesByState,
+  parishes,
+  parishLocation,
+  parishSocialLinks,
+} from '@/data/parishes';
 import { getStateByCode, stateName } from '@/data/states';
 
 interface PageProps {
@@ -64,6 +70,7 @@ export default async function ParishPage({ params }: PageProps) {
 
   const state = getStateByCode(parish.state);
   const siblings = getParishesByState(parish.state).filter((p) => p.id !== parish.id);
+  const social = parishSocialLinks(parish);
 
   return (
     <>
@@ -223,9 +230,36 @@ export default async function ParishPage({ params }: PageProps) {
                       </dd>
                     </div>
                   ) : null}
+
+                  {social.length > 0 ? (
+                    <div>
+                      <dt className="text-celestial-500">Social media</dt>
+                      <dd className="mt-1">
+                        <ul className="space-y-1.5">
+                          {social.map((link) => (
+                            <li key={link.label}>
+                              <a
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-celestial-800 underline-offset-4 hover:underline"
+                              >
+                                <IconExternal className="h-4 w-4 shrink-0 text-celestial-400" aria-hidden="true" />
+                                {link.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </dd>
+                    </div>
+                  ) : null}
                 </dl>
 
-                {!parish.shepherd && !parish.phone && !parish.email ? (
+                {!parish.shepherd &&
+                !parish.phone &&
+                !parish.email &&
+                !parish.website &&
+                social.length === 0 ? (
                   <p className="mt-5 border-t border-celestial-100 pt-4 text-sm text-celestial-600">
                     Contact details for this parish have not yet been supplied.
                   </p>
@@ -271,6 +305,11 @@ export default async function ParishPage({ params }: PageProps) {
             ...(parish.description ? { description: parish.description } : {}),
             ...(parish.phone ? { telephone: parish.phone } : {}),
             ...(parish.email ? { email: parish.email } : {}),
+            ...(parish.website || social.length > 0
+              ? {
+                  sameAs: [parish.website, ...social.map((link) => link.url)].filter(Boolean),
+                }
+              : {}),
             address: {
               '@type': 'PostalAddress',
               ...(parish.address ? splitAddress(parish.address) : {}),
