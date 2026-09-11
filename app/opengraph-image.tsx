@@ -1,6 +1,17 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
-import { siteConfig } from '@/config/site';
+import { siteConfig, siteOrigin } from '@/config/site';
 import { confirmedStates } from '@/data/states';
+
+/**
+ * The card is generated at build time, so the emblem is inlined from disk as a
+ * data URI: `next/og` cannot fetch a relative URL, and the site has no absolute
+ * origin to fetch from during a static export.
+ */
+const logoDataUri = `data:image/png;base64,${readFileSync(
+  join(process.cwd(), 'public/images/ccc-logo.png'),
+).toString('base64')}`;
 
 /**
  * Default Open Graph card, generated at build time.
@@ -39,15 +50,15 @@ export default function OpengraphImage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '72px',
-              height: '72px',
+              width: '96px',
+              height: '96px',
               borderRadius: '999px',
               border: '3px solid #dcb43c',
-              color: '#e9cb63',
-              fontSize: '36px',
+              background: '#ffffff',
             }}
           >
-            C
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logoDataUri} width={84} height={84} alt="" style={{ objectFit: 'contain' }} />
           </div>
           <div
             style={{
@@ -92,7 +103,8 @@ export default function OpengraphImage() {
           <div style={{ display: 'flex' }}>
             Serving {confirmedStates.length} states of the western United States
           </div>
-          <div style={{ display: 'flex' }}>cccusadiocese.org</div>
+          {/* The region's own host, so the card follows a change of domain. */}
+          <div style={{ display: 'flex' }}>{new URL(siteOrigin).host}</div>
         </div>
       </div>
     ),

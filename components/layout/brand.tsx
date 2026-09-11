@@ -1,12 +1,15 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { cn } from '@/lib/cn';
 
 /**
- * The Region C wordmark.
+ * The Region C wordmark: the Celestial Church of Christ emblem beside the
+ * regional name.
  *
- * A typographic mark rather than an image: it stays crisp at any size, needs no
- * network request, and does not pre-empt any official Diocese artwork that may
- * later be supplied. The "C" roundel carries the gold accent.
+ * The supplied artwork is drawn on an opaque white disc, so it is set in a
+ * white circle with the gold ring the region uses elsewhere. That reads as a
+ * deliberate badge on the dark footer as well as on the white header, and
+ * avoids altering the official emblem to fake transparency.
  */
 export function Brand({
   tone = 'light',
@@ -28,13 +31,17 @@ export function Brand({
       <span
         aria-hidden="true"
         className={cn(
-          'flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 font-serif text-lg font-semibold transition-colors',
-          onDark
-            ? 'border-gold-400 bg-celestial-800 text-gold-300'
-            : 'border-gold-500 bg-celestial-800 text-gold-300',
+          'flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 bg-white',
+          onDark ? 'border-gold-400' : 'border-gold-500',
         )}
       >
-        C
+        <Image
+          src="/images/ccc-logo.png"
+          alt=""
+          width={44}
+          height={44}
+          className="h-full w-full object-contain"
+        />
       </span>
       <span className="flex min-w-0 flex-col leading-tight">
         <span

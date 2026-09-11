@@ -122,8 +122,10 @@ export const parishes: Parish[] = [
     slug: 'san-diego-central-parish',
     state: 'CA',
     city: 'San Diego',
-    // Supplied by Region C; the Facebook page confirms the name and city but
-    // gives no address, phone or shepherd.
+    address: '5795 El Cajon Blvd, San Diego, CA 92115',
+    // Address and shepherd supplied by Region C; phone and e-mail still to be
+    // provided.
+    shepherd: 'VSE Francis Alaba',
     social: { facebook: 'https://www.facebook.com/cccsandiegoparish/' },
   },
   {
