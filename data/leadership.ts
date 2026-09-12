@@ -38,7 +38,7 @@ export const leadership: Leader[] = [
     id: 'yomi-dodo-williams',
     name: 'Yomi Dodo-Williams',
     ecclesiasticalTitle: 'VSE',
-    image: '/images/vse-yomi-dodo-williams.jpg',
+    image: '/images/vse-yomi-dodo-williams-v2.jpg',
     office: 'Region C Deputy Regional Supervisor',
     tier: 'principal',
     portfolio: 'Regional Office',
