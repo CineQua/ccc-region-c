@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'onDark';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'onDark' | 'light';
 type Size = 'sm' | 'md' | 'lg';
 
 /*
@@ -19,6 +19,12 @@ const variants: Record<Variant, string> = {
   ghost: 'text-celestial-800 hover:bg-celestial-50',
   // For placement on navy surfaces; gold border, white text.
   onDark: 'border border-gold-400/70 text-white hover:bg-white/10 active:bg-white/15',
+  // The solid counterpart to `onDark`: a white button on a navy surface. It is a
+  // variant rather than a className override because `cn` does not resolve
+  // conflicts — overriding `primary` leaves both `text-white` and the darker
+  // text class on the element, and stylesheet order, not call order, picks the
+  // winner.
+  light: 'bg-white text-celestial-900 hover:bg-celestial-50 active:bg-celestial-100',
 };
 
 const sizes: Record<Size, string> = {

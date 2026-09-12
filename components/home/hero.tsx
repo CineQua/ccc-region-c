@@ -53,7 +53,7 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ButtonLink href="/parishes" size="lg" className="bg-white text-celestial-900 hover:bg-celestial-50">
+            <ButtonLink href="/parishes" size="lg" variant="light">
               <IconSearch className="h-4.5 w-4.5" />
               Find a Parish
             </ButtonLink>

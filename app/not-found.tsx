@@ -15,7 +15,7 @@ export default function NotFound() {
           parish directory, or return to the Region C home page.
         </p>
         <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-          <ButtonLink href="/" size="lg" className="bg-white text-celestial-900 hover:bg-celestial-50">
+          <ButtonLink href="/" size="lg" variant="light">
             Region C home
             <IconArrowRight className="h-4 w-4" />
           </ButtonLink>
