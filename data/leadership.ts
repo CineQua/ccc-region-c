@@ -14,8 +14,8 @@ import type { Leader } from '@/lib/types';
  *
  * Not yet supplied, and therefore intentionally absent rather than invented:
  * biographies, parish/state affiliations and e-mail addresses, and headshots for
- * everyone but the Supervisor and the Deputy Regional Supervisor. Cards degrade
- * gracefully to initials until `image` is populated.
+ * everyone but the Supervisor, the Deputy Regional Supervisor and the Evangelism
+ * Director. Cards degrade gracefully to initials until `image` is populated.
  *
  * Headshots live in `public/images/`, web-sized; the full-resolution originals
  * are kept in `assets/leadership/`, which is outside the served directory.
@@ -102,6 +102,7 @@ export const leadership: Leader[] = [
     id: 'richard-anisere',
     name: 'Richard Anisere',
     ecclesiasticalTitle: 'VSE',
+    image: '/images/vse-richard-anisere.jpg',
     office: 'Evangelism Director',
     tier: 'executive',
     portfolio: 'Evangelism',
