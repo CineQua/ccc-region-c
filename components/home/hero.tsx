@@ -18,7 +18,7 @@ export function Hero() {
        */}
       <div aria-hidden="true" className="absolute inset-0">
         <Image
-          src="/images/home-banner.jpg"
+          src="/images/home-banner-v2.jpg"
           alt=""
           fill
           priority
