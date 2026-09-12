@@ -14,8 +14,8 @@ import type { Leader } from '@/lib/types';
  *
  * Not yet supplied, and therefore intentionally absent rather than invented:
  * biographies, parish/state affiliations and e-mail addresses, and headshots for
- * everyone but the Deputy Regional Supervisor. Cards degrade gracefully to
- * initials until `image` is populated.
+ * everyone but the Supervisor and the Deputy Regional Supervisor. Cards degrade
+ * gracefully to initials until `image` is populated.
  *
  * Headshots live in `public/images/`, web-sized; the full-resolution originals
  * are kept in `assets/leadership/`, which is outside the served directory.
@@ -28,6 +28,7 @@ export const leadership: Leader[] = [
     id: 'joseph-awosika',
     name: 'Joseph Awosika',
     ecclesiasticalTitle: 'VSE',
+    image: '/images/vse-joseph-awosika.jpg',
     office: 'Region C Supervisor',
     tier: 'principal',
     portfolio: 'Regional Office',
