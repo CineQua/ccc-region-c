@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
 import { CelestialField } from '@/components/ui/primitives';
@@ -8,6 +9,25 @@ import { confirmedStates } from '@/data/states';
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-celestial-900">
+      {/*
+       * Worship photograph behind the hero. The image is composited against the
+       * hero's own navy (#0a1633) with the singer to the right and his left edge
+       * faded out, so the headline column stays clean at wide sizes. The gradient
+       * below carries that protection down to narrow screens, where `object-right`
+       * keeps him in frame as the sides crop.
+       */}
+      <div aria-hidden="true" className="absolute inset-0">
+        <Image
+          src="/images/home-banner.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-right"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-celestial-900 via-celestial-900/85 to-celestial-900/40 lg:via-celestial-900/70 lg:to-transparent" />
+      </div>
+
       <CelestialField />
 
       <Container width="wide" className="relative py-16 sm:py-20 lg:py-28">
