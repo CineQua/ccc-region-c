@@ -59,7 +59,10 @@ summer harvests stay at 10:00 local through daylight saving instead of drifting
 to 09:00. The file carries a `VTIMEZONE` block, so other calendar applications
 resolve PST/PDT correctly too.
 
-**Venue:** every harvest is set to its parish's address from `data/parishes.ts`,
-except New Covenant Parish, which is not in the directory and is marked "Venue to
-be confirmed". Edit the event in Google Calendar once the venue is known — the
-site picks the change up within the hour.
+**Venue:** every harvest is set to its parish's address from `data/parishes.ts`.
+
+Two addresses changed after the first import, so this file and the live calendar
+can drift apart. The **live Google Calendar is what the website reads** — editing
+this file alone changes nothing on the site. Either re-import it (the stable
+`UID`s mean Google updates rather than duplicates) or edit the events directly,
+choosing "All events" so the whole recurring series follows.

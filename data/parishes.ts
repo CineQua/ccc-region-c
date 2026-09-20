@@ -145,9 +145,11 @@ export const parishes: Parish[] = [
     name: 'New Covenant Parish',
     slug: 'new-covenant-parish',
     state: 'CA',
-    // Supplied by Region C (2026-09-19) alongside its Harvest date, with no city
-    // or address yet; listed by state alone. Address, city, shepherd, phone and
-    // e-mail still to be provided.
+    city: 'Los Angeles',
+    // Address supplied by Region C, 2026-09-19, and recorded as given.
+    // Phone and e-mail still to be provided.
+    address: '2129 W. Slauson, Los Angeles, CA 90047',
+    shepherd: 'VSE Isaac Awolope',
   },
 ];
 
