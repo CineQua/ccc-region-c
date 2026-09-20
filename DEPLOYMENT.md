@@ -85,9 +85,39 @@ all 210 as "upcoming", prerender a page for each, and run the calendar view year
 by year to 2056. Widen it only deliberately.
 
 **Freshness.** The feed is cached for one hour (`CALENDAR_REVALIDATE_SECONDS`),
-so a calendar edit appears within the hour without a redeploy. Responses are
-tagged `region-c-calendar`, so a route handler calling `revalidateTag` can push
-an urgent change live immediately if that is ever wanted.
+so a calendar edit appears within the hour without a redeploy.
+
+### Publishing a calendar change immediately
+
+To skip the wait, open:
+
+```
+https://<site>/api/revalidate-calendar?secret=<CALENDAR_REVALIDATE_SECRET>
+```
+
+It discards the cached calendar response and nothing else, so the next page view
+refetches from Google. It is safe to bookmark on a phone and safe to hit
+repeatedly. A successful call returns `{"revalidated":true,...}`.
+
+| Variable | Meaning |
+| --- | --- |
+| `CALENDAR_REVALIDATE_SECRET` | A long random string. **Until it is set the endpoint refuses every request**, so a missing variable cannot leave an open refresh URL on the internet. |
+
+Generate one with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(24).toString('hex'))"
+```
+
+The secret may also be sent as an `x-calendar-secret` header instead of a query
+parameter, and the endpoint accepts `POST` as well as `GET`, so it can later be
+driven by a webhook. A wrong secret returns `401` and is compared in constant
+time; an unset one returns `503`.
+
+> **Note for `output: 'export'`:** `npm run build:static` sets `app/api/` aside
+> for the duration of the build. A static export cannot serve a route that reads
+> its request, and has no cache to revalidate in any case. The folder is restored
+> afterwards — see `scripts/build-static.mjs`.
 
 > **Note for `output: 'export'`:** static export has no revalidation, so events
 > freeze at build time and a calendar change needs a rebuild. This is one more
