@@ -26,6 +26,18 @@ to correct and re-import.
 | File | Contents |
 | --- | --- |
 | `region-c-harvests.ics` | The seven annual parish Harvest Thanksgiving services, each a yearly recurring event, 10:00–17:00 Pacific. |
+| `regional-day.ics` | Regional Day: the third Sunday of February each year, 10:00–17:00 Pacific, at Comforter Parish (the Regional seat). |
+
+### `regional-day.ics`
+
+| Event | Rule | RRULE |
+| --- | --- | --- |
+| Regional Day | Third Sunday in February | `FREQ=YEARLY;BYMONTH=2;BYDAY=3SU` |
+
+"The Sunday of the third week in February" was read as the **third Sunday**,
+confirmed with Region C on 2026-09-19. The distinction matters: counting weeks
+from the one containing 1 February instead puts it a week earlier in six years
+out of seven — 14 February in 2027, against 21 February for the third Sunday.
 
 ### `region-c-harvests.ics`
 
