@@ -171,6 +171,26 @@ export function getParishBySlug(slug: string): Parish | undefined {
   return parishes.find((parish) => parish.slug === slug);
 }
 
+/**
+ * Finds a parish by name, for content that names one as free text.
+ *
+ * An event's host parish comes from a line an administrator types into a Google
+ * Calendar description, so it will not always match the directory character for
+ * character. Case and spacing are normalised, and a trailing "Parish" is
+ * optional on either side, so both "Comforter Parish" and "comforter" resolve.
+ * Returns undefined when nothing matches, which callers render as plain text
+ * rather than a link to a page that does not exist.
+ */
+export function getParishByName(name: string): Parish | undefined {
+  const normalise = (value: string) =>
+    value.toLowerCase().replace(/\s+/g, ' ').trim().replace(/\s+parish$/, '');
+
+  const target = normalise(name);
+  if (!target) return undefined;
+
+  return parishes.find((parish) => normalise(parish.name) === target);
+}
+
 export function getParishesByState(code: string): Parish[] {
   return orderedParishes.filter((parish) => parish.state === code.toUpperCase());
 }

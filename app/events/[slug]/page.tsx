@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/container';
 import { ButtonLink } from '@/components/ui/button';
@@ -15,6 +16,7 @@ import { IconArrowRight, IconCalendar, IconExternal, IconMapPin } from '@/compon
 import { buildMetadata } from '@/lib/metadata';
 import { absoluteUrl } from '@/config/site';
 import { getAllEvents, getEventBySlug, getUpcomingEvents } from '@/data/events';
+import { getParishByName } from '@/data/parishes';
 import { stateName } from '@/data/states';
 import { eventDateTime, formatEventDate } from '@/lib/format';
 
@@ -57,6 +59,8 @@ export default async function EventPage({ params }: PageProps) {
   const others = (await getUpcomingEvents())
     .filter((item) => item.id !== event.id)
     .slice(0, 3);
+
+  const hostParish = event.parish ? getParishByName(event.parish) : undefined;
 
   return (
     <>
@@ -130,7 +134,20 @@ export default async function EventPage({ params }: PageProps) {
                   {event.parish ? (
                     <div>
                       <dt className="text-celestial-500">Host parish</dt>
-                      <dd className="mt-1 text-celestial-900">{event.parish}</dd>
+                      <dd className="mt-1 text-celestial-900">
+                        {hostParish ? (
+                          <Link
+                            href={`/parishes/${hostParish.slug}`}
+                            className="underline-offset-4 hover:underline"
+                          >
+                            {event.parish}
+                          </Link>
+                        ) : (
+                          // Named on the calendar but not in the directory: shown
+                          // as text rather than linked to a page that is not there.
+                          event.parish
+                        )}
+                      </dd>
                     </div>
                   ) : null}
                   {event.category ? (
