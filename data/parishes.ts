@@ -98,8 +98,10 @@ export const parishes: Parish[] = [
     name: 'Oshoffa Parish',
     slug: 'oshoffa-parish',
     state: 'CA',
-    city: 'Gardena',
-    address: '13425 South Normandie Avenue, Gardena, CA 90249',
+    city: 'Los Angeles',
+    // Relocated from 13425 South Normandie Avenue, Gardena; new address
+    // supplied by Region C, 2026-09-19.
+    address: '7834 South Main Street, Los Angeles, CA 90003',
     phone: '310-946-5383',
     email: 'josephawosika@att.net',
     shepherd: 'VSE Joseph Awosika',
