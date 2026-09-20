@@ -1,0 +1,123 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Celestial Church of Christ USA Diocese//Region C Harvests//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Region C Parish Harvests
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:harvest-san-diego-central-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:San Diego Central Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20270704T100000
+DTEND;TZID=America/Los_Angeles:20270704T170000
+RRULE:FREQ=YEARLY;BYMONTH=7;BYDAY=1SU
+LOCATION:5795 El Cajon Blvd\, San Diego\, CA 92115
+DESCRIPTION:The annual Harvest Thanksgiving Service of San Diego Central Pa
+ rish\, held every first Sunday in July from 10:00am to 5:00pm.\n\nCategory
+ : Harvest\nParish: San Diego Central Parish\nState: CA
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:harvest-new-covenant-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:New Covenant Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20270829T100000
+DTEND;TZID=America/Los_Angeles:20270829T170000
+RRULE:FREQ=YEARLY;BYMONTH=8;BYDAY=-1SU
+LOCATION:Venue to be confirmed
+DESCRIPTION:The annual Harvest Thanksgiving Service of New Covenant Parish\
+ , held every last Sunday in August from 10:00am to 5:00pm.\n\nCategory: Ha
+ rvest\nParish: New Covenant Parish\nState: CA
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:harvest-comforter-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:Comforter Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20260927T100000
+DTEND;TZID=America/Los_Angeles:20260927T170000
+RRULE:FREQ=YEARLY;BYMONTH=9;BYDAY=-1SU
+LOCATION:7623-25 South Vermont Avenue\, Los Angeles\, CA 90044
+DESCRIPTION:The annual Harvest Thanksgiving Service of Comforter Parish\, h
+ eld every last Sunday in September from 10:00am to 5:00pm.\n\nCategory: Ha
+ rvest\nParish: Comforter Parish\nState: CA
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:harvest-arizona-central-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:Arizona Central Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20261018T100000
+DTEND;TZID=America/Los_Angeles:20261018T170000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=3SU
+LOCATION:6245 N 35th Avenue\, Unit 2\, Phoenix\, AZ 85017
+DESCRIPTION:The annual Harvest Thanksgiving Service of Arizona Central Pari
+ sh\, held every third Sunday in October from 10:00am to 5:00pm.\n\nCategor
+ y: Harvest\nParish: Arizona Central Parish\nState: AZ
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:harvest-oshoffa-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:Oshoffa Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20261025T100000
+DTEND;TZID=America/Los_Angeles:20261025T170000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+LOCATION:13425 South Normandie Avenue\, Gardena\, CA 90249
+DESCRIPTION:The annual Harvest Thanksgiving Service of Oshoffa Parish\, hel
+ d every last Sunday in October from 10:00am to 5:00pm.\n\nCategory: Harves
+ t\nParish: Oshoffa Parish\nState: CA
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:harvest-sanctum-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:Sanctum Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20261101T100000
+DTEND;TZID=America/Los_Angeles:20261101T170000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+LOCATION:11750 Cedar Avenue\, Bloomington\, CA 92316
+DESCRIPTION:The annual Harvest Thanksgiving Service of Sanctum Parish\, hel
+ d every first Sunday in November from 10:00am to 5:00pm.\n\nCategory: Harv
+ est\nParish: Sanctum Parish\nState: CA
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+UID:harvest-la-mother-parish@regionc.cccusadiocese.org
+DTSTAMP:20260919T120000Z
+SUMMARY:LA Mother Parish Harvest
+DTSTART;TZID=America/Los_Angeles:20261206T100000
+DTEND;TZID=America/Los_Angeles:20261206T170000
+RRULE:FREQ=YEARLY;BYMONTH=12;BYDAY=1SU
+LOCATION:2600 Tyler Avenue\, El Monte\, CA 91733
+DESCRIPTION:The annual Harvest Thanksgiving Service of LA Mother Parish\, h
+ eld every first Sunday in December from 10:00am to 5:00pm.\n\nCategory: Ha
+ rvest\nParish: LA Mother Parish\nState: CA
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

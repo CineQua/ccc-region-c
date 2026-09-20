@@ -65,7 +65,7 @@ export default async function MinistryPage({ params }: PageProps) {
 
   const category = eventCategoryForMinistry[ministry.slug];
   const relatedEvents = category
-    ? getUpcomingEvents().filter((event) => event.category === category)
+    ? (await getUpcomingEvents()).filter((event) => event.category === category)
     : [];
 
   const otherMinistries = orderedMinistries.filter((item) => item.id !== ministry.id);

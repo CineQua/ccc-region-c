@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/config/site';
 import { parishes } from '@/data/parishes';
 import { states } from '@/data/states';
-import { events } from '@/data/events';
+import { getAllEvents } from '@/data/events';
 import { news } from '@/data/news';
 import { ministries } from '@/data/ministries';
 
@@ -17,8 +17,9 @@ import { ministries } from '@/data/ministries';
 // `output: 'export'` (see DEPLOYMENT.md).
 export const dynamic = 'force-static';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const events = await getAllEvents();
 
   const staticRoutes: { path: string; priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' }[] = [
     { path: '/', priority: 1, changeFrequency: 'weekly' },

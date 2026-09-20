@@ -14,21 +14,21 @@ import { EventCard } from '@/components/events/event-card';
 import { IconArrowRight, IconCalendar, IconExternal, IconMapPin } from '@/components/ui/icons';
 import { buildMetadata } from '@/lib/metadata';
 import { absoluteUrl } from '@/config/site';
-import { events, getEventBySlug, getUpcomingEvents } from '@/data/events';
+import { getAllEvents, getEventBySlug, getUpcomingEvents } from '@/data/events';
 import { stateName } from '@/data/states';
-import { formatEventDate, isoDate } from '@/lib/format';
+import { eventDateTime, formatEventDate } from '@/lib/format';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return events.map((event) => ({ slug: event.slug }));
+export async function generateStaticParams() {
+  return (await getAllEvents()).map((event) => ({ slug: event.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const event = await getEventBySlug(slug);
 
   if (!event) {
     return buildMetadata({
@@ -50,11 +50,13 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function EventPage({ params }: PageProps) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const event = await getEventBySlug(slug);
 
   if (!event) notFound();
 
-  const others = getUpcomingEvents().filter((item) => item.id !== event.id).slice(0, 3);
+  const others = (await getUpcomingEvents())
+    .filter((item) => item.id !== event.id)
+    .slice(0, 3);
 
   return (
     <>
@@ -62,7 +64,7 @@ export default async function EventPage({ params }: PageProps) {
         <div className="flex flex-col gap-3 text-celestial-100 sm:flex-row sm:flex-wrap sm:gap-6">
           <p className="flex items-center gap-2">
             <IconCalendar className="h-5 w-5 shrink-0 text-gold-300" aria-hidden="true" />
-            <time dateTime={isoDate(event.startDate)}>{formatEventDate(event)}</time>
+            <time dateTime={eventDateTime(event.startDate)}>{formatEventDate(event)}</time>
           </p>
           <p className="flex items-center gap-2">
             <IconMapPin className="h-5 w-5 shrink-0 text-gold-300" aria-hidden="true" />
@@ -112,7 +114,7 @@ export default async function EventPage({ params }: PageProps) {
                   <div>
                     <dt className="text-celestial-500">Date</dt>
                     <dd className="mt-1 text-celestial-900">
-                      <time dateTime={isoDate(event.startDate)}>{formatEventDate(event)}</time>
+                      <time dateTime={eventDateTime(event.startDate)}>{formatEventDate(event)}</time>
                     </dd>
                   </div>
                   <div>
@@ -180,8 +182,8 @@ export default async function EventPage({ params }: PageProps) {
             '@type': 'Event',
             name: event.title,
             description: event.description,
-            startDate: event.startDate,
-            ...(event.endDate ? { endDate: event.endDate } : {}),
+            startDate: eventDateTime(event.startDate),
+            ...(event.endDate ? { endDate: eventDateTime(event.endDate) } : {}),
             eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
             location: { '@type': 'Place', name: event.location },
             url: absoluteUrl(`/events/${event.slug}`),

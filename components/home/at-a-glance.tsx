@@ -14,7 +14,9 @@ import { ministries } from '@/data/ministries';
  * reflect sample records are labelled as such instead of being presented as
  * verified regional statistics.
  */
-export function AtAGlance() {
+export async function AtAGlance() {
+  const upcomingCount = (await getUpcomingEvents()).length;
+
   const stats = [
     {
       label: 'States served',
@@ -34,7 +36,7 @@ export function AtAGlance() {
     },
     {
       label: 'Upcoming events',
-      value: getUpcomingEvents().length,
+      value: upcomingCount,
       caption: 'On the regional calendar',
       href: '/events',
       icon: IconCalendar,

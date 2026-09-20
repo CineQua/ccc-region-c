@@ -53,6 +53,68 @@ rebuild — setting them at runtime has no effect.
 | `NEXT_PUBLIC_SITE_URL` | The absolute origin, no trailing slash, **without** the sub-path. Used for canonical URLs, Open Graph tags, `sitemap.xml` and `robots.txt`. |
 | `NEXT_PUBLIC_BASE_PATH` | The sub-path the site is served from, e.g. `/region-c`. Leave **empty** when serving from the root of a host. |
 
+---
+
+## Events: the Google Calendar feed
+
+Events are read from the public **"Region C Events"** Google Calendar, owned by
+the Region C Google account. `lib/calendar.ts` holds the adapter; `data/events.ts`
+exposes it to the pages.
+
+| Variable | Meaning |
+| --- | --- |
+| `GOOGLE_CALENDAR_API_KEY` | **Required to enable the live feed.** A Google Cloud API key restricted to the Calendar API. Not `NEXT_PUBLIC_` — it must stay server-side. |
+| `GOOGLE_CALENDAR_ID` | Optional. Overrides the calendar being read; defaults to the Region C Events calendar already set in `lib/calendar.ts`. |
+
+**Why an API key and not a connected account.** The calendar is published
+publicly, so the site only needs to read it. That avoids OAuth entirely: there is
+no refresh token to expire, and no credential tied to one person's password that
+breaks when they change it or leave the role.
+
+**If the key is absent or Google is unreachable**, the site falls back to the
+static sample array in `data/events.ts` and logs the reason. It never renders an
+empty calendar because of a failed network call. An empty *live* calendar is
+treated as genuinely empty and shows the "no events scheduled" state.
+
+**Window.** The site reads 18 months back and **24 months forward**
+(`FUTURE_WINDOW_MONTHS`). The forward bound is load-bearing, not cosmetic:
+Google expands a recurring event into individual occurrences and projects a
+yearly rule roughly thirty years out. The seven parish Harvests alone return
+**210 occurrences running to 2056** if the window is left open — which would list
+all 210 as "upcoming", prerender a page for each, and run the calendar view year
+by year to 2056. Widen it only deliberately.
+
+**Freshness.** The feed is cached for one hour (`CALENDAR_REVALIDATE_SECONDS`),
+so a calendar edit appears within the hour without a redeploy. Responses are
+tagged `region-c-calendar`, so a route handler calling `revalidateTag` can push
+an urgent change live immediately if that is ever wanted.
+
+> **Note for `output: 'export'`:** static export has no revalidation, so events
+> freeze at build time and a calendar change needs a rebuild. This is one more
+> reason to stay on a Node-capable host (see above).
+
+### How an administrator enters an event
+
+Title, date, time and location map across directly. Google Calendar has no
+custom fields, so the remaining details go on their own lines in the
+**description**, and are lifted out of the visible text automatically:
+
+```
+Category: Youth
+Register: https://example.org/tickets
+Parish: Bethel Parish
+State: CA
+```
+
+All four are optional and case-insensitive. `Category` must be one of
+`Regional`, `Evangelism`, `Youth`, `Women`, `Choir & Music`, `Convention` or
+`Training` — anything else is ignored rather than shown. `State` is a two-letter
+code. Everything else in the description is shown as the event's prose.
+
+Recurring events are expanded by Google into individual occurrences, so a
+repeating programme lists correctly. An annual programme that keeps the same
+title each year gets a year-suffixed URL for later occurrences.
+
 `config/site.ts` is the single place these are read. Nothing else in the codebase
 hardcodes a domain or a path segment.
 

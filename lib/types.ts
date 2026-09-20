@@ -116,7 +116,9 @@ export type EventCategory =
   | 'Women'
   | 'Choir & Music'
   | 'Convention'
-  | 'Training';
+  | 'Training'
+  /** Annual parish Harvest Thanksgiving services. */
+  | 'Harvest';
 
 export interface NewsArticle {
   id: string;

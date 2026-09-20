@@ -1,17 +1,23 @@
+import { cache } from 'react';
 import type { RegionEvent } from '@/lib/types';
+import { fetchCalendarEvents } from '@/lib/calendar';
 
 /**
  * Region C events.
  *
- * SAMPLE CONTENT: the entries below illustrate the event system and are flagged
- * with `isPlaceholder: true`. Dates, venues and registration links are not real
- * and must be replaced with the ratified Region C calendar.
+ * The live source is the public "Region C Events" Google Calendar, read through
+ * `lib/calendar.ts`. The array below is the FALLBACK, used when the calendar is
+ * not configured (no `GOOGLE_CALENDAR_API_KEY`) or unreachable at build time, so
+ * the site never renders an empty events page because of a network failure.
  *
- * Calendar integration path: `getUpcomingEvents()` is the only accessor the UI
- * calls, so a future Google Calendar or CMS source can replace the static array
- * without touching a single component.
+ * SAMPLE CONTENT: the entries below illustrate the event system and are flagged
+ * with `isPlaceholder: true`. Dates, venues and registration links are not real.
+ * Once the calendar is live these are no longer rendered.
+ *
+ * Every accessor here is async: they await the calendar. `groupEventsByYear` is
+ * pure and stays synchronous.
  */
-export const events: RegionEvent[] = [
+export const fallbackEvents: RegionEvent[] = [
   {
     id: 'evt-regional-workers-retreat',
     title: 'Region C Workers Retreat',
@@ -76,31 +82,50 @@ export const events: RegionEvent[] = [
   },
 ];
 
-/** True while the calendar contains only sample records. Drives the UI notice. */
-export const eventsAreSample: boolean =
-  events.length > 0 && events.every((event) => event.isPlaceholder);
+/**
+ * Every known event, live calendar first.
+ *
+ * Wrapped in React's `cache` so the calendar is read once per render pass no
+ * matter how many components ask — the home page alone asks twice.
+ */
+export const getAllEvents = cache(async (): Promise<RegionEvent[]> => {
+  const live = await fetchCalendarEvents();
+  return live ?? fallbackEvents;
+});
+
+/**
+ * True while the events shown are sample records, which drives the UI notice.
+ * A live calendar is never "sample", even when it is empty.
+ */
+export async function eventsAreSample(): Promise<boolean> {
+  const list = await getAllEvents();
+  return list.length > 0 && list.every((event) => event.isPlaceholder);
+}
 
 /**
  * Events that have not yet finished, soonest first.
  * `reference` is injectable so pages and tests are not tied to the wall clock.
  */
-export function getUpcomingEvents(limit?: number, reference: Date = new Date()): RegionEvent[] {
+export async function getUpcomingEvents(
+  limit?: number,
+  reference: Date = new Date(),
+): Promise<RegionEvent[]> {
   const cutoff = reference.getTime();
-  const upcoming = events
+  const upcoming = (await getAllEvents())
     .filter((event) => endOf(event).getTime() >= cutoff)
     .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
   return typeof limit === 'number' ? upcoming.slice(0, limit) : upcoming;
 }
 
-export function getPastEvents(reference: Date = new Date()): RegionEvent[] {
+export async function getPastEvents(reference: Date = new Date()): Promise<RegionEvent[]> {
   const cutoff = reference.getTime();
-  return events
+  return (await getAllEvents())
     .filter((event) => endOf(event).getTime() < cutoff)
     .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 }
 
-export function getEventBySlug(slug: string): RegionEvent | undefined {
-  return events.find((event) => event.slug === slug);
+export async function getEventBySlug(slug: string): Promise<RegionEvent | undefined> {
+  return (await getAllEvents()).find((event) => event.slug === slug);
 }
 
 /** Group events by calendar year, earliest year first — used by the calendar view. */

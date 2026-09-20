@@ -45,6 +45,22 @@ export function isoDate(iso: string): string {
   return new Date(iso).toISOString();
 }
 
+/**
+ * Machine-readable value for an event date, for `<time dateTime>` and for
+ * schema.org structured data.
+ *
+ * Event times in the content layer are WALL CLOCK times carrying a `Z` suffix,
+ * because every formatter here renders in UTC (see the note at the top of this
+ * file). Emitting that `Z` verbatim would assert the wrong instant: a harvest at
+ * 10:00 Pacific would be published to search engines as 10:00 UTC — 03:00 local.
+ *
+ * Dropping the suffix yields a local date-time, which schema.org and HTML both
+ * read as the local time of the event venue. That is exactly what it is.
+ */
+export function eventDateTime(iso: string): string {
+  return iso.includes('T') ? iso.replace(/(\.\d+)?Z$/, '') : iso;
+}
+
 /** Calendar parts used by the compact date block on event cards. */
 export function dateParts(iso: string): { day: string; month: string; year: string } {
   const date = new Date(iso);
@@ -65,14 +81,19 @@ export function dateParts(iso: string): { day: string; month: string; year: stri
 export function formatEventDate(event: RegionEvent): string {
   const start = new Date(event.startDate);
   const startLabel = formatDate(event.startDate);
+  const timed = !event.allDay && event.startDate.includes('T');
 
   if (!event.endDate || event.endDate === event.startDate) {
-    return event.allDay || !event.startDate.includes('T')
-      ? startLabel
-      : `${startLabel} · ${new Intl.DateTimeFormat('en-US', TIME_STYLE).format(start)}`;
+    return timed ? `${startLabel} · ${formatTime(start)}` : startLabel;
   }
 
   const end = new Date(event.endDate);
+
+  // A timed event that starts and finishes on one day is not a date range: it
+  // would otherwise read "September 27–27, 2026" and lose its hours entirely.
+  if (isSameUtcDay(start, end)) {
+    return timed ? `${startLabel} · ${formatTime(start)} – ${formatTime(end)}` : startLabel;
+  }
   const sameYear = start.getUTCFullYear() === end.getUTCFullYear();
   const sameMonth = sameYear && start.getUTCMonth() === end.getUTCMonth();
 
@@ -88,6 +109,18 @@ export function formatEventDate(event: RegionEvent): string {
 
 function stripYear(label: string): string {
   return label.replace(/,\s*\d{4}$/, '');
+}
+
+function formatTime(date: Date): string {
+  return new Intl.DateTimeFormat('en-US', TIME_STYLE).format(date);
+}
+
+function isSameUtcDay(a: Date, b: Date): boolean {
+  return (
+    a.getUTCFullYear() === b.getUTCFullYear() &&
+    a.getUTCMonth() === b.getUTCMonth() &&
+    a.getUTCDate() === b.getUTCDate()
+  );
 }
 
 /** Join names as US-English prose: `formatList(['A', 'B', 'C'])` -> "A, B, and C". */

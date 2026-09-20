@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { RegionEvent } from '@/lib/types';
 import { stateName } from '@/data/states';
-import { dateParts, formatEventDate, isoDate } from '@/lib/format';
+import { dateParts, eventDateTime, formatEventDate } from '@/lib/format';
 import { Badge } from '@/components/ui/primitives';
 import { IconArrowRight, IconMapPin } from '@/components/ui/icons';
 import { cn } from '@/lib/cn';
@@ -53,7 +53,7 @@ export function EventCard({
         </h3>
 
         <time
-          dateTime={isoDate(event.startDate)}
+          dateTime={eventDateTime(event.startDate)}
           className="mt-1.5 block text-sm font-medium text-celestial-600"
         >
           {formatEventDate(event)}

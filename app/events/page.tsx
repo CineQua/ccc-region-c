@@ -19,9 +19,10 @@ export const metadata = buildMetadata({
   path: '/events',
 });
 
-export default function EventsPage() {
-  const upcoming = getUpcomingEvents();
-  const past = getPastEvents().slice(0, 6);
+export default async function EventsPage() {
+  const upcoming = await getUpcomingEvents();
+  const past = (await getPastEvents()).slice(0, 6);
+  const isSample = await eventsAreSample();
 
   return (
     <>
@@ -45,7 +46,7 @@ export default function EventsPage() {
 
       <section className="bg-white py-12 sm:py-14">
         <Container width="wide">
-          {eventsAreSample && upcoming.length > 0 ? (
+          {isSample && upcoming.length > 0 ? (
             <PlaceholderNotice className="mb-6">
               The events listed here demonstrate how the regional calendar will work. Dates, venues
               and details are not confirmed and will be replaced by the ratified Region C calendar.

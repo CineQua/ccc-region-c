@@ -156,8 +156,9 @@ export function LeadershipPreview() {
 
 /* ------------------------------------------------------ Upcoming Events --- */
 
-export function UpcomingEventsSection() {
-  const upcoming = getUpcomingEvents(3);
+export async function UpcomingEventsSection() {
+  const upcoming = await getUpcomingEvents(3);
+  const isSample = await eventsAreSample();
 
   return (
     <section aria-labelledby="events-heading" className="bg-white py-16 sm:py-20">
@@ -174,7 +175,7 @@ export function UpcomingEventsSection() {
           }
         />
 
-        {eventsAreSample && upcoming.length > 0 ? (
+        {isSample && upcoming.length > 0 ? (
           <PlaceholderNotice className="mb-5">
             The events below illustrate the regional calendar. Dates and venues are not confirmed.
           </PlaceholderNotice>

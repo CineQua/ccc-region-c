@@ -58,7 +58,7 @@ export default async function StatePage({ params }: PageProps) {
 
   const stateParishes = getParishesByState(state.code);
   // Events explicitly tied to this state; region-wide events are not duplicated here.
-  const stateEvents = getUpcomingEvents().filter((event) => event.state === state.code);
+  const stateEvents = (await getUpcomingEvents()).filter((event) => event.state === state.code);
   const supervisor = state.supervisorId ? getLeaderById(state.supervisorId) : undefined;
 
   return (

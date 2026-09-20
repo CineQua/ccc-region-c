@@ -11,7 +11,7 @@ import {
 import { IconArrowRight, IconMapPin } from '@/components/ui/icons';
 import { buildMetadata } from '@/lib/metadata';
 import { eventsAreSample, getUpcomingEvents, groupEventsByYear } from '@/data/events';
-import { formatEventDate, isoDate } from '@/lib/format';
+import { eventDateTime, formatEventDate } from '@/lib/format';
 import { stateName } from '@/data/states';
 
 export const metadata = buildMetadata({
@@ -28,8 +28,9 @@ export const metadata = buildMetadata({
  * carries a handful of events per year, and a list reads better on a phone and
  * needs no JavaScript. A month grid can be added later as an alternative view.
  */
-export default function CalendarPage() {
-  const grouped = groupEventsByYear(getUpcomingEvents());
+export default async function CalendarPage() {
+  const grouped = groupEventsByYear(await getUpcomingEvents());
+  const isSample = await eventsAreSample();
 
   return (
     <>
@@ -54,7 +55,7 @@ export default function CalendarPage() {
 
       <section className="bg-white py-12 sm:py-14">
         <Container>
-          {eventsAreSample && grouped.length > 0 ? (
+          {isSample && grouped.length > 0 ? (
             <PlaceholderNotice className="mb-8">
               This calendar contains sample entries only. The ratified Region C calendar will replace
               them.
@@ -79,7 +80,7 @@ export default function CalendarPage() {
                           className="flex flex-col gap-2 px-5 py-4 transition-colors hover:bg-celestial-50 sm:flex-row sm:items-center sm:gap-6"
                         >
                           <time
-                            dateTime={isoDate(event.startDate)}
+                            dateTime={eventDateTime(event.startDate)}
                             className="shrink-0 text-sm font-semibold text-celestial-700 sm:w-44"
                           >
                             {formatEventDate(event)}
