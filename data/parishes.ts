@@ -21,6 +21,9 @@ import { orderedStates, stateName } from './states';
  * Parish (El Monte), Patmos Sanctuary Parish and San Diego Central Parish,
  * absent from the Diocese listing, are added; Eternal Ark of Covenant Parish's
  * listed address is out of date and is withheld.
+ *
+ * Further Region C addition (2026-09-19): New Covenant Parish, California, also
+ * absent from the Diocese listing.
  */
 export const parishes: Parish[] = [
   {
@@ -134,6 +137,15 @@ export const parishes: Parish[] = [
     slug: 'patmos-sanctuary-parish',
     state: 'CA',
     // Supplied by Region C with no address yet; listed by state alone.
+  },
+  {
+    id: 'ca-new-covenant',
+    name: 'New Covenant Parish',
+    slug: 'new-covenant-parish',
+    state: 'CA',
+    // Supplied by Region C (2026-09-19) alongside its Harvest date, with no city
+    // or address yet; listed by state alone. Address, city, shepherd, phone and
+    // e-mail still to be provided.
   },
 ];
 
