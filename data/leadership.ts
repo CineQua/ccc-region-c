@@ -48,6 +48,7 @@ export const leadership: Leader[] = [
     id: 'amos-adeoye',
     name: 'Amos Adeoye',
     ecclesiasticalTitle: 'VSE',
+    image: '/images/vse-amos-adeoye.jpg',
     office: 'Shepherd & Region C States Supervisor',
     tier: 'executive',
     portfolio: 'Regional Office',
