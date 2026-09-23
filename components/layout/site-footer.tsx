@@ -10,7 +10,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-auto bg-celestial-950 text-celestial-200">
       <div className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_2fr]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_2fr]">
           <div>
             <Brand tone="dark" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-celestial-300">
@@ -29,7 +29,7 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             {footerNav.map((group) => (
               <nav key={group.title} aria-label={group.title}>
                 <h2 className="font-sans text-xs font-semibold tracking-[0.14em] text-gold-300 uppercase">

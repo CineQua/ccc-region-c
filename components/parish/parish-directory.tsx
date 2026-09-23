@@ -76,7 +76,7 @@ export function ParishDirectory({
   return (
     <div>
       <div className="rounded-lg border border-celestial-100 bg-celestial-50/60 p-4 sm:p-5">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
           <div>
             <label htmlFor={searchId} className="mb-1.5 block text-sm font-medium text-celestial-800">
               Search parishes
@@ -154,7 +154,7 @@ export function ParishDirectory({
 
       <div className="mt-4">
         {results.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {results.map((parish) => (
               <ParishCard key={parish.id} parish={parish} />
             ))}

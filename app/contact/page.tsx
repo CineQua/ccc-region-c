@@ -78,7 +78,7 @@ export default function ContactPage() {
             </PlaceholderNotice>
           ) : null}
 
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.2fr_1fr]">
             <div>
               <h2 className="rule-gold text-xl text-celestial-900">Region C Secretariat</h2>
               <p className="mt-5 max-w-2xl leading-relaxed text-celestial-700">

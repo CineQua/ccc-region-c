@@ -109,7 +109,7 @@ export default async function ArticlePage({ params }: PageProps) {
         <section className="border-t border-celestial-100 bg-celestial-50/50 py-12 sm:py-14">
           <Container width="wide">
             <SectionHeading eyebrow="More from Region C" title="Related announcements" as="h2" />
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((item) => (
                 <li key={item.id}>
                   <ArticleCard article={item} />

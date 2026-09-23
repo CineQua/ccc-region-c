@@ -67,7 +67,7 @@ export default function AboutPage() {
             description="The region is structured hierarchically: Region C, then state, then parish, then the shepherd and congregation of that parish."
           />
 
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <Card className="p-6">
               <p className="font-serif text-4xl font-semibold text-celestial-900">
                 {confirmedStates.length}
@@ -113,7 +113,7 @@ export default function AboutPage() {
               </ButtonLink>
             }
           />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {orderedStates.map((state) => (
               <li key={state.code}>
                 <StateCard state={state} parishCount={counts[state.code] ?? 0} />
@@ -136,7 +136,7 @@ export default function AboutPage() {
               </ButtonLink>
             }
           />
-          <ul className="grid gap-4 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {principalLeaders.map((leader) => (
               <li key={leader.id}>
                 <Card className="p-6">

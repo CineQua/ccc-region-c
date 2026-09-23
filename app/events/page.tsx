@@ -54,7 +54,7 @@ export default async function EventsPage() {
           ) : null}
 
           {upcoming.length > 0 ? (
-            <ul className="grid gap-4 lg:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {upcoming.map((event) => (
                 <li key={event.id}>
                   <EventCard event={event} />
@@ -80,7 +80,7 @@ export default async function EventsPage() {
         <section className="border-t border-celestial-100 bg-celestial-50/50 py-12 sm:py-14">
           <Container width="wide">
             <SectionHeading eyebrow="Archive" title="Past events" as="h2" />
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {past.map((event) => (
                 <li key={event.id}>
                   <EventCard event={event} variant="compact" />

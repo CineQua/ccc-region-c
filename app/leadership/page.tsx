@@ -72,7 +72,7 @@ export default function LeadershipPage() {
             description="Region C is led by the Regional Supervisor, assisted by the Deputy Regional Supervisor."
             className="mb-8"
           />
-          <div className="grid gap-5 sm:grid-cols-2 lg:max-w-3xl">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:max-w-3xl">
             {principalLeaders.map((leader) => (
               <LeaderCard key={leader.id} leader={leader} variant="principal" />
             ))}
@@ -105,7 +105,7 @@ export default function LeadershipPage() {
                     <h3 className="text-xl text-celestial-900">{group.title}</h3>
                     <p className="mt-1 text-sm text-celestial-600">{group.description}</p>
                   </div>
-                  <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {members.map((leader) => (
                       <li key={leader.id}>
                         <LeaderCard leader={leader} />

@@ -37,7 +37,7 @@ export default function StatesPage() {
             description="Each state page lists the Region C parishes within it, together with regional contacts."
           />
 
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {orderedStates.map((state) => (
               <li key={state.code}>
                 <StateCard state={state} parishCount={counts[state.code] ?? 0} />

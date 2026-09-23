@@ -88,7 +88,7 @@ export default async function EventPage({ params }: PageProps) {
 
       <section className="bg-white py-12 sm:py-14">
         <Container width="wide">
-          <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr]">
             <div>
               {event.isPlaceholder ? (
                 <PlaceholderNotice className="mb-6">
@@ -180,7 +180,7 @@ export default async function EventPage({ params }: PageProps) {
         <section className="border-t border-celestial-100 bg-celestial-50/50 py-12 sm:py-14">
           <Container width="wide">
             <SectionHeading eyebrow="Also coming up" title="Other regional events" as="h2" />
-            <ul className="grid gap-4 lg:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {others.map((item) => (
                 <li key={item.id}>
                   <EventCard event={item} variant="compact" />

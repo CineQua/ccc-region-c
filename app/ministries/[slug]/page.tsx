@@ -83,7 +83,7 @@ export default async function MinistryPage({ params }: PageProps) {
 
       <section className="bg-white py-12 sm:py-14">
         <Container width="wide">
-          <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[2fr_1fr]">
             <div>
               <span
                 aria-hidden="true"
@@ -99,7 +99,7 @@ export default async function MinistryPage({ params }: PageProps) {
               </div>
 
               <h2 className="rule-gold mt-10 text-xl text-celestial-900">Areas of focus</h2>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {ministry.focusAreas.map((focus) => (
                   <li
                     key={focus}
@@ -164,7 +164,7 @@ export default async function MinistryPage({ params }: PageProps) {
                 </ButtonLink>
               }
             />
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {officers.map((leader) => (
                 <li key={leader.id}>
                   <LeaderCard leader={leader} />
@@ -189,7 +189,7 @@ export default async function MinistryPage({ params }: PageProps) {
                 </ButtonLink>
               }
             />
-            <ul className="grid gap-4 lg:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {relatedEvents.map((event) => (
                 <li key={event.id}>
                   <EventCard event={event} variant="compact" />

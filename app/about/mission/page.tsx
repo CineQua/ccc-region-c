@@ -85,7 +85,7 @@ export default function MissionPage() {
             title="What Region C sets out to do"
             align="center"
           />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {purposes.map((purpose) => (
               <li key={purpose.title}>
                 <Card className="h-full p-6">
@@ -111,7 +111,7 @@ export default function MissionPage() {
               </ButtonLink>
             }
           />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {orderedMinistries.map((ministry) => {
               const Icon = ministryIcons[ministry.icon];
               return (

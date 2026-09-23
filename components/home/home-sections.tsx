@@ -42,7 +42,7 @@ export function FindAParish() {
           }
         />
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_2fr]">
           <Card className="p-6">
             <h3 className="text-lg text-celestial-900">Browse by state</h3>
             <p className="mt-2 text-sm leading-relaxed text-celestial-600">
@@ -76,7 +76,7 @@ export function FindAParish() {
             ) : null}
 
             {featured.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {featured.map((parish) => (
                   <ParishCard key={parish.id} parish={parish} />
                 ))}
@@ -115,7 +115,7 @@ export function LeadershipPreview() {
           }
         />
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {principalLeaders.map((leader) => (
             <LeaderCard key={leader.id} leader={leader} variant="principal" />
           ))}
@@ -182,7 +182,7 @@ export async function UpcomingEventsSection() {
         ) : null}
 
         {upcoming.length > 0 ? (
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {upcoming.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
@@ -225,7 +225,7 @@ export function LatestNews() {
         ) : null}
 
         {articles.length > 0 ? (
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {articles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
@@ -286,7 +286,7 @@ export function ResourceQuickLinks() {
           }
         />
 
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {quickLinks.map((link) => (
             <li key={link.title}>
               <Link

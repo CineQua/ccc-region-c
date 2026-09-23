@@ -103,7 +103,7 @@ export default async function ParishPage({ params }: PageProps) {
             </PlaceholderNotice>
           ) : null}
 
-          <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr]">
             <div>
               <h2 className="rule-gold text-xl text-celestial-900">Service times</h2>
               {parish.serviceTimes?.length ? (

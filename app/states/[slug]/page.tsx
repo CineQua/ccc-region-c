@@ -74,7 +74,7 @@ export default async function StatePage({ params }: PageProps) {
 
       <section className="bg-white py-12 sm:py-14">
         <Container width="wide">
-          <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr]">
             <div>
               <SectionHeading
                 eyebrow="Parishes"
@@ -94,7 +94,7 @@ export default async function StatePage({ params }: PageProps) {
               ) : null}
 
               {stateParishes.length > 0 ? (
-                <ul className="grid gap-4 sm:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {stateParishes.map((parish) => (
                     <li key={parish.id}>
                       <ParishCard parish={parish} />
@@ -121,7 +121,7 @@ export default async function StatePage({ params }: PageProps) {
                     title={`Events in ${state.name}`}
                     as="h2"
                   />
-                  <ul className="grid gap-4 sm:grid-cols-2">
+                  <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {stateEvents.map((event) => (
                       <li key={event.id}>
                         <EventCard event={event} variant="compact" />
