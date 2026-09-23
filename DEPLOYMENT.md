@@ -117,6 +117,14 @@ If the Sheet has no recognisable Status column at all, the adapter **publishes
 nothing and falls back to the static array**, rather than treating every row as
 approved. That failure mode is deliberate.
 
+### Building the form
+
+`scripts/create-news-form.gs` creates the whole thing — Form, linked Sheet,
+Status column with a dropdown, and link-sharing — so the column headers match
+this adapter exactly. Run it once at https://script.google.com signed in as the
+Region C account; it prints the `NEWS_SHEET_ID` to paste into Vercel. Building
+the form by hand works too; the questions are below.
+
 ### Form questions
 
 Column headers are matched by wording, not position, so questions can be
