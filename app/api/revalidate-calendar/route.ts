@@ -1,18 +1,21 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { revalidateTag } from 'next/cache';
 import { CALENDAR_TAG } from '@/lib/calendar';
+import { NEWS_TAG } from '@/lib/news-sheet';
 
 /**
- * On-demand refresh of the Google Calendar feed.
+ * On-demand refresh of the Google-backed content: the events calendar and the
+ * news sheet.
  *
- * The events feed is cached for an hour, so an edit made in Google Calendar
- * normally appears within the hour. Whoever maintains the calendar can hit this
- * endpoint to publish a change straight away instead of waiting:
+ * Both are cached for an hour, so an edit normally appears within the hour.
+ * Whoever maintains them can hit this endpoint to publish a change straight
+ * away instead of waiting:
  *
  *   https://<site>/api/revalidate-calendar?secret=<CALENDAR_REVALIDATE_SECRET>
  *
  * It is safe to bookmark on a phone and safe to hit repeatedly: it discards the
- * cached calendar response and nothing else, and the next page view refetches.
+ * cached Google responses and nothing else, and the next page view refetches.
+ * `?only=calendar` or `?only=news` narrows it to one of the two.
  *
  * Configuration: set `CALENDAR_REVALIDATE_SECRET` to a long random string in the
  * hosting environment. Until it is set the endpoint refuses every request, so a
@@ -57,15 +60,19 @@ function handle(request: Request): Response {
     return Response.json({ revalidated: false, error: 'Unauthorized.' }, { status: 401 });
   }
 
-  // Discards the cached Google Calendar response. `{ expire: 0 }` rather than
-  // the usual "max" profile: the point of this endpoint is that the very next
-  // page view shows the change, so that view should wait for the refetch
-  // instead of being served the stale copy it was trying to get rid of.
-  revalidateTag(CALENDAR_TAG, { expire: 0 });
+  // Discards the cached Google responses. `{ expire: 0 }` rather than the usual
+  // "max" profile: the point of this endpoint is that the very next page view
+  // shows the change, so that view should wait for the refetch instead of being
+  // served the stale copy it was trying to get rid of.
+  const only = url.searchParams.get('only')?.toLowerCase();
+  const tags =
+    only === 'calendar' ? [CALENDAR_TAG] : only === 'news' ? [NEWS_TAG] : [CALENDAR_TAG, NEWS_TAG];
+
+  for (const tag of tags) revalidateTag(tag, { expire: 0 });
 
   return Response.json({
     revalidated: true,
-    tag: CALENDAR_TAG,
+    tags,
     at: new Date().toISOString(),
   });
 }

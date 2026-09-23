@@ -16,8 +16,9 @@ export const metadata = buildMetadata({
   path: '/news',
 });
 
-export default function NewsPage() {
-  const articles = getLatestNews();
+export default async function NewsPage() {
+  const articles = await getLatestNews();
+  const isSample = await newsIsSample();
 
   return (
     <>
@@ -35,7 +36,7 @@ export default function NewsPage() {
 
       <section className="bg-white py-12 sm:py-14">
         <Container width="wide">
-          {newsIsSample && articles.length > 0 ? (
+          {isSample && articles.length > 0 ? (
             <PlaceholderNotice className="mb-6">
               The announcements below were included with the initial build to demonstrate the news
               system. They will be replaced by announcements issued by the Region C Secretariat.

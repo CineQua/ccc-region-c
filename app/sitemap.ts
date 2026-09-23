@@ -3,7 +3,7 @@ import { absoluteUrl } from '@/config/site';
 import { parishes } from '@/data/parishes';
 import { states } from '@/data/states';
 import { getAllEvents } from '@/data/events';
-import { news } from '@/data/news';
+import { getAllNews } from '@/data/news';
 import { ministries } from '@/data/ministries';
 
 /**
@@ -20,6 +20,7 @@ export const dynamic = 'force-static';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const events = await getAllEvents();
+  const news = await getAllNews();
 
   const staticRoutes: { path: string; priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' }[] = [
     { path: '/', priority: 1, changeFrequency: 'weekly' },

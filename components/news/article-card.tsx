@@ -7,6 +7,19 @@ import { IconArrowRight } from '@/components/ui/icons';
 export function ArticleCard({ article }: { article: NewsArticle }) {
   return (
     <article className="group relative flex flex-col rounded-lg border border-celestial-100 bg-white p-5 shadow-card transition-shadow duration-200 hover:border-celestial-200 hover:shadow-card-hover focus-within:border-celestial-300">
+      {article.image ? (
+        // Plain <img> rather than next/image — the URL comes from a form and
+        // may be on any host. See the note on the article page.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={article.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="mb-4 aspect-video w-full rounded-md border border-celestial-100 bg-celestial-50 object-cover"
+        />
+      ) : null}
+
       <div className="flex flex-wrap items-center gap-2">
         <Badge>{article.category}</Badge>
         {article.isPlaceholder ? <Badge tone="gold">Sample</Badge> : null}

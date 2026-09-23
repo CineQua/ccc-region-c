@@ -1,4 +1,6 @@
+import { cache } from 'react';
 import type { NewsArticle, NewsCategory } from '@/lib/types';
+import { fetchNewsRows } from '@/lib/news-sheet';
 
 export const newsCategories: NewsCategory[] = [
   'Region News',
@@ -12,12 +14,18 @@ export const newsCategories: NewsCategory[] = [
 /**
  * Region C news and announcements.
  *
+ * The live source is the Region C news Google Sheet, filled in by a Google Form
+ * and read through `lib/news-sheet.ts`. The array below is the FALLBACK, used
+ * when the sheet is not configured or unreachable, so the newsroom is never
+ * empty because of a network failure.
+ *
  * SAMPLE CONTENT: the articles below demonstrate the news system and are flagged
  * with `isPlaceholder: true`. They deliberately make no factual claims about
- * events that have taken place. Replace with announcements issued by the
- * Region C Secretariat.
+ * events that have taken place. Once the sheet is live they are not rendered.
+ *
+ * Every accessor here is async: they await the sheet.
  */
-export const news: NewsArticle[] = [
+export const fallbackNews: NewsArticle[] = [
   {
     id: 'news-welcome',
     title: 'Welcome to the new Region C website',
@@ -69,28 +77,50 @@ export const news: NewsArticle[] = [
   },
 ];
 
-/** True while the newsroom contains only sample records. Drives the UI notice. */
-export const newsIsSample: boolean =
-  news.length > 0 && news.every((article) => article.isPlaceholder);
+/**
+ * Every published article, live sheet first.
+ *
+ * Wrapped in React's `cache` so the sheet is read once per render pass however
+ * many components ask.
+ */
+export const getAllNews = cache(async (): Promise<NewsArticle[]> => {
+  const live = await fetchNewsRows();
+  return live ?? fallbackNews;
+});
+
+/**
+ * True while the newsroom shows sample records, which drives the UI notice.
+ * A live sheet is never "sample", even when it has no published rows yet.
+ */
+export async function newsIsSample(): Promise<boolean> {
+  const list = await getAllNews();
+  return list.length > 0 && list.every((article) => article.isPlaceholder);
+}
 
 /** Articles newest first. */
-export const orderedNews: NewsArticle[] = [...news].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
-
-export function getLatestNews(limit?: number): NewsArticle[] {
-  return typeof limit === 'number' ? orderedNews.slice(0, limit) : orderedNews;
+export async function getOrderedNews(): Promise<NewsArticle[]> {
+  return [...(await getAllNews())].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
 }
 
-export function getArticleBySlug(slug: string): NewsArticle | undefined {
-  return news.find((article) => article.slug === slug);
+export async function getLatestNews(limit?: number): Promise<NewsArticle[]> {
+  const ordered = await getOrderedNews();
+  return typeof limit === 'number' ? ordered.slice(0, limit) : ordered;
 }
 
-export function getNewsByCategory(category: NewsCategory): NewsArticle[] {
-  return orderedNews.filter((article) => article.category === category);
+export async function getArticleBySlug(slug: string): Promise<NewsArticle | undefined> {
+  return (await getAllNews()).find((article) => article.slug === slug);
+}
+
+export async function getNewsByCategory(category: NewsCategory): Promise<NewsArticle[]> {
+  return (await getOrderedNews()).filter((article) => article.category === category);
 }
 
 /** Categories that actually have at least one article, in canonical order. */
-export function activeNewsCategories(): NewsCategory[] {
-  return newsCategories.filter((category) => news.some((article) => article.category === category));
+export async function activeNewsCategories(): Promise<NewsCategory[]> {
+  const list = await getAllNews();
+  return newsCategories.filter((category) =>
+    list.some((article) => article.category === category),
+  );
 }

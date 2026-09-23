@@ -87,6 +87,63 @@ by year to 2056. Widen it only deliberately.
 **Freshness.** The feed is cached for one hour (`CALENDAR_REVALIDATE_SECONDS`),
 so a calendar edit appears within the hour without a redeploy.
 
+## News: the Google Form and Sheet
+
+Region C announcements are submitted through a Google Form, which writes each
+response as a row in a Google Sheet. The site reads that Sheet the same way it
+reads the calendar. `lib/news-sheet.ts` holds the adapter; `data/news.ts`
+exposes it to the pages.
+
+| Variable | Meaning |
+| --- | --- |
+| `NEWS_SHEET_ID` | **Required to enable the live newsroom.** The id in the sheet's URL, between `/d/` and `/edit`. |
+| `GOOGLE_SHEETS_API_KEY` | Optional. Falls back to `GOOGLE_CALENDAR_API_KEY`, so one key can serve both — but that key's API restrictions must then list **both** the Calendar API and the Sheets API, and the Sheets API must be enabled on the project. |
+| `NEWS_SHEET_RANGE` | Optional. Defaults to `A:Z` of the first tab, which is where Form responses land. |
+
+The Sheet must be shared so that **anyone with the link can view**; the API key
+cannot read a private sheet.
+
+### The Status column is not optional
+
+A Google Form is open to anyone holding its link. Without a gate, a leaked or
+forwarded URL would let anyone publish under the Secretariat's name.
+
+**Only rows whose Status cell reads `Published` are rendered** (`Approved`,
+`Live`, `Yes` and `True` are accepted too, case-insensitively). A submission
+arrives with Status blank, which means it is *not* published; someone on the
+Secretariat sets the cell when it should go live.
+
+If the Sheet has no recognisable Status column at all, the adapter **publishes
+nothing and falls back to the static array**, rather than treating every row as
+approved. That failure mode is deliberate.
+
+### Form questions
+
+Column headers are matched by wording, not position, so questions can be
+reordered or reworded slightly without breaking anything. The words that must
+survive are in bold.
+
+| Form question | Fills | Required |
+| --- | --- | --- |
+| Post **title** | headline, and the URL slug | yes |
+| **Category** | one of: Region News, Parish News, Diocese, Evangelism, Youth, Events — use a dropdown | falls back to Region News |
+| **Byline** | the author line | falls back to "Region C Secretariat" |
+| **Summary** | the standfirst and the text on cards | derived from the body if blank |
+| **Body** | the article. **Leave a blank line between paragraphs** | yes |
+| Publication **date** | the displayed date; lets a post be backdated | falls back to the form timestamp |
+| **Image URL** | an optional picture | optional |
+| **Status** | the moderation gate — add this column in the Sheet, not the Form | **yes** |
+
+Add **Status** as a column in the Sheet to the right of the form's own columns.
+Google Forms only ever appends its own columns, so an extra one is safe.
+
+**Images** are rendered with a plain `<img>`, not `next/image`. The URL is typed
+into a form and may point at any host, and `next/image` throws on a host absent
+from `images.remotePatterns` — which would break the page rather than just skip
+the picture. The trade-off is that these images are not resized or converted, so
+paste URLs to reasonably sized files. If the images settle on one host, add it to
+`remotePatterns` in `next.config.ts` and switch to the optimiser.
+
 ### Publishing a calendar change immediately
 
 To skip the wait, open:
@@ -95,9 +152,11 @@ To skip the wait, open:
 https://<site>/api/revalidate-calendar?secret=<CALENDAR_REVALIDATE_SECRET>
 ```
 
-It discards the cached calendar response and nothing else, so the next page view
-refetches from Google. It is safe to bookmark on a phone and safe to hit
-repeatedly. A successful call returns `{"revalidated":true,...}`.
+It discards the cached calendar **and news** responses and nothing else, so the
+next page view refetches from Google. It is safe to bookmark on a phone and safe
+to hit repeatedly. A successful call returns `{"revalidated":true,...}`.
+
+Append `&only=news` or `&only=calendar` to refresh just one of the two.
 
 | Variable | Meaning |
 | --- | --- |

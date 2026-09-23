@@ -200,8 +200,9 @@ export async function UpcomingEventsSection() {
 
 /* ---------------------------------------------------------- Latest News --- */
 
-export function LatestNews() {
-  const articles = getLatestNews(3);
+export async function LatestNews() {
+  const articles = await getLatestNews(3);
+  const isSample = await newsIsSample();
 
   return (
     <section aria-labelledby="news-heading" className="bg-celestial-50/50 py-16 sm:py-20">
@@ -218,7 +219,7 @@ export function LatestNews() {
           }
         />
 
-        {newsIsSample && articles.length > 0 ? (
+        {isSample && articles.length > 0 ? (
           <PlaceholderNotice className="mb-5">
             These announcements were included with the initial build to demonstrate the news system.
           </PlaceholderNotice>

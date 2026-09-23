@@ -13,20 +13,20 @@ import { ArticleCard } from '@/components/news/article-card';
 import { IconArrowRight } from '@/components/ui/icons';
 import { buildMetadata } from '@/lib/metadata';
 import { absoluteUrl, siteConfig } from '@/config/site';
-import { getArticleBySlug, news, orderedNews } from '@/data/news';
+import { getAllNews, getArticleBySlug, getOrderedNews } from '@/data/news';
 import { formatDate, isoDate } from '@/lib/format';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return news.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  return (await getAllNews()).map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return buildMetadata({
@@ -49,11 +49,13 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) notFound();
 
-  const related = orderedNews.filter((item) => item.id !== article.id).slice(0, 3);
+  const related = (await getOrderedNews())
+    .filter((item) => item.id !== article.id)
+    .slice(0, 3);
 
   return (
     <>
@@ -87,6 +89,21 @@ export default async function ArticlePage({ params }: PageProps) {
           <div className="mb-6 flex flex-wrap gap-2">
             <Badge>{article.category}</Badge>
           </div>
+
+          {article.image ? (
+            // A plain <img>, not next/image: the URL is pasted into a Google
+            // Form and may point at any host, and next/image rejects hosts that
+            // are not listed in `images.remotePatterns` — which would break the
+            // page rather than merely skip the picture. See DEPLOYMENT.md.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={article.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="mb-8 aspect-video w-full rounded-lg border border-celestial-100 bg-celestial-50 object-cover"
+            />
+          ) : null}
 
           <div className="prose-region">
             <p className="font-serif text-xl leading-snug text-celestial-800">{article.excerpt}</p>
