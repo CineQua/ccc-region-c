@@ -176,10 +176,11 @@ their headlines, would both be worse.
 
 **Headlines are shown exactly as published**, including when they are in full
 capitals. Converting them to title case was tried and removed: it produced
-`31St` and `44Th`, and lowercased ecclesiastical titles into `Mse` and `Emf`.
-The set of acronyms that must survive — CCC titles, agencies, place names — is
-not reliably enumerable, and misrendering a cleric's title is worse than a
-shouted headline.
+`31St` and `44Th`, reduced the rank MSE to `Mse`, and — worse — turned `EMF`
+into `Emf`. EMF is not a title at all: it is the initials of the Pastor,
+Emmanuel Mobiyina Friday Oshoffa. An algorithm cannot tell a person's initials
+from a word, the set of forms that must survive is not enumerable, and getting
+one wrong misnames people. A shouted headline is the lesser problem.
 
 ### Approving submissions
 

@@ -11,6 +11,12 @@ import type { ExternalArticle } from './types';
  * Sources are read through the WordPress REST API rather than RSS: it returns
  * JSON, so no XML parser is needed, and it can filter by category server-side.
  *
+ * Headlines are passed through verbatim, including when a publisher sets them
+ * in full capitals. Title-casing them was built and removed: besides mangling
+ * ordinals, it rewrote `EMF` — the initials of the Pastor, Emmanuel Mobiyina
+ * Friday Oshoffa — as `Emf`. Nothing can reliably tell a person's initials from
+ * a word, so the text is left as its publisher set it.
+ *
  * Unlike the calendar and the newsroom there is NO fallback. This is
  * supplementary content: if a publisher is unreachable its section is simply
  * not rendered, which is preferable to showing a stale copy of someone else's
