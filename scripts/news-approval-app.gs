@@ -19,8 +19,15 @@
  * 2. Project Settings (the cog) -> Script Properties -> Add script property:
  *
  *        Property:  REVALIDATE_URL
- *        Value:     https://ccc-region-c.vercel.app/api/revalidate-calendar
- *                     ?secret=YOUR_SECRET&only=news
+ *        Value:     the refresh URL, ON ONE LINE, ending in &only=news
+ *
+ *    It looks like this, with no line break and no spaces anywhere:
+ *
+ *      https://<site>/api/revalidate-calendar?secret=<SECRET>&only=news
+ *
+ *    Paste it as a single line. A value broken across two lines is the one
+ *    way this goes wrong: approving still works, but the refresh reports
+ *    something like "Bad request: http://&only=news".
  *
  *    Keep the secret here rather than in the code, so it is not in the file.
  *    Leave the property out and everything still works — you would just tap
@@ -202,14 +209,36 @@ function reject(rowNumber) {
   return setStatus(rowNumber, STATUS_REJECTED);
 }
 
-/** Clears the site's cached copy so the change shows immediately. */
+/**
+ * Clears the site's cached copy so the change shows immediately.
+ *
+ * Never throws: a failed refresh must not make a successful approval look like
+ * it failed. The post is already published either way; the worst case is that
+ * the site takes up to an hour to notice, or that you tap the bookmark.
+ */
 function refreshWebsite() {
-  var url = PropertiesService.getScriptProperties().getProperty('REVALIDATE_URL');
-  if (!url) return 'no REVALIDATE_URL set — refresh the site yourself';
+  var raw = PropertiesService.getScriptProperties().getProperty('REVALIDATE_URL');
+  if (!raw) return 'no REVALIDATE_URL set — refresh the site yourself';
+
+  // A value pasted across two lines arrives with a line break in the middle,
+  // which produces a nonsense URL. Rebuild it rather than fail on it.
+  var url = String(raw).replace(/\s+/g, '');
+
+  if (!/^https:\/\/[^/]+\/.+secret=/.test(url)) {
+    return (
+      'REVALIDATE_URL looks wrong (' +
+      url.slice(0, 40) +
+      '…) — it should be one line: https://<site>/api/revalidate-calendar?secret=<SECRET>&only=news'
+    );
+  }
+
   try {
     var response = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
     var code = response.getResponseCode();
-    return code === 200 ? 'website refreshed' : 'refresh returned HTTP ' + code;
+    if (code === 200) return 'website refreshed';
+    if (code === 401) return 'refresh rejected (401) — the secret in REVALIDATE_URL is wrong';
+    if (code === 503) return 'refresh unavailable (503) — CALENDAR_REVALIDATE_SECRET is not set in Vercel';
+    return 'refresh returned HTTP ' + code;
   } catch (err) {
     return 'refresh failed: ' + err;
   }
