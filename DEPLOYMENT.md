@@ -169,6 +169,21 @@ Authorisation is the sheet's own sharing list, not a list of emails in code.
 Deployed as "execute as the user accessing", someone without edit access to the
 sheet simply cannot approve.
 
+### A short address for the approval app
+
+| Variable | Meaning |
+| --- | --- |
+| `APPROVE_URL` | Optional. The approval web app's `/exec` URL. Set it and `https://<site>/approve` forwards there; leave it unset and that route does not exist. |
+
+Worth setting: it is what gets bookmarked on a phone, and it means the Apps
+Script address can change — a new deployment issues a new URL — without anyone
+re-bookmarking. It is kept in the environment rather than in the repository so
+the address is not published; it is a redirect to a page behind Google sign-in,
+not a secret.
+
+The redirect is omitted entirely under `output: 'export'`, which does not
+support redirects.
+
 ### Publishing a calendar change immediately
 
 To skip the wait, open:

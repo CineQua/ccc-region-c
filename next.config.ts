@@ -47,6 +47,41 @@ const nextConfig: NextConfig = {
     remotePatterns: [],
     formats: ['image/avif', 'image/webp'],
   },
+
+  /**
+   * Short, permanent entry points for the admin tools.
+   *
+   * `/approve` forwards to the news approval web app, so the thing to bookmark
+   * on a phone is a memorable address on this site rather than a 120-character
+   * Apps Script URL. It also means the target can change — creating a new Apps
+   * Script deployment issues a new URL — without anyone re-bookmarking.
+   *
+   * The target is read from the environment rather than written here, so the
+   * address is not published in this repository. Unset, the route simply does
+   * not exist. It is a redirect to a page behind Google sign-in, not a secret.
+   *
+   * Redirects are not supported by `output: 'export'`, so this is inert in a
+   * static export — as with the refresh endpoint. See DEPLOYMENT.md.
+   */
+  // Omitted entirely under `output: 'export'`: Next warns on the presence of
+  // the key, not on what it returns, so returning [] there still complains.
+  ...(isStaticExport
+    ? {}
+    : {
+        async redirects() {
+          const approveUrl = process.env.APPROVE_URL?.trim();
+          if (!approveUrl) return [];
+
+          return [
+            {
+              source: '/approve',
+              destination: approveUrl,
+              // The Apps Script URL can change; do not let browsers cache it.
+              permanent: false,
+            },
+          ];
+        },
+      }),
 };
 
 export default nextConfig;
