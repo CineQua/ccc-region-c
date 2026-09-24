@@ -152,6 +152,23 @@ the picture. The trade-off is that these images are not resized or converted, so
 paste URLs to reasonably sized files. If the images settle on one host, add it to
 `remotePatterns` in `next.config.ts` and switch to the optimiser.
 
+### Approving submissions
+
+`scripts/news-approval-app.gs` is a small web app for reviewing submissions: it
+lists everything pending, shows each post in full, and approves or rejects it in
+one tap — setting Status and refreshing the site in the same action. Setup and
+deployment options are documented at the top of that file.
+
+It is an Apps Script web app rather than an `/admin` page on this site for one
+reason: approving means **writing** to the sheet. The site only ever reads it,
+with a read-only key on a public sheet. An admin page here would need a
+service-account credential, a sign-in system and a write scope; Apps Script
+already runs as the sheet's owner and is authenticated by Google.
+
+Authorisation is the sheet's own sharing list, not a list of emails in code.
+Deployed as "execute as the user accessing", someone without edit access to the
+sheet simply cannot approve.
+
 ### Publishing a calendar change immediately
 
 To skip the wait, open:
