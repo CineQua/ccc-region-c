@@ -13,9 +13,20 @@ import { ministries } from '@/data/ministries';
  * ministries are included automatically. Sample records are excluded: they must
  * not be submitted to search engines as though they were real listings.
  */
-// Generated once at build time; also keeps the route compatible with
-// `output: 'export'` (see DEPLOYMENT.md).
-export const dynamic = 'force-static';
+/**
+ * Regenerated on the same hourly cycle as the calendar and news feeds, and
+ * whenever those tags are revalidated.
+ *
+ * It was `dynamic = 'force-static'` while every record was a static module,
+ * which was correct then and wrong now: events come from Google Calendar and
+ * announcements from a Google Sheet, so a sitemap frozen at deploy time omits
+ * everything published since. A post is still reachable — it is linked from
+ * /news — but the sitemap is what search engines are given to discover it.
+ *
+ * A static export prerenders this once at build time regardless, which is the
+ * same constraint the events feed already has there (see DEPLOYMENT.md).
+ */
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
