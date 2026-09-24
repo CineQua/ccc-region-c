@@ -152,6 +152,35 @@ the picture. The trade-off is that these images are not resized or converted, so
 paste URLs to reasonably sized files. If the images settle on one host, add it to
 `remotePatterns` in `next.config.ts` and switch to the optimiser.
 
+### News from other CCC publications
+
+The foot of `/news` carries headlines from independent Celestial Church of Christ
+publications: a headline, the publisher's own summary, and a link to their page.
+Nothing is republished — the reader always ends up on the source's site, and the
+section is labelled and attributed so nothing reads as a Region C statement.
+
+`lib/external-news.ts` holds the list of sources. Adding one is an entry in
+`SOURCES`; there is no environment variable, because a public news site is not a
+credential. Sources are read through the **WordPress REST API** rather than RSS:
+it returns JSON, needs no XML parser, and filters by category server-side.
+
+To check whether a candidate publication can be read this way, open
+`<site>/wp-json/wp/v2/posts?per_page=1`. JSON means yes. Anything else means the
+site is not WordPress or has the API turned off, and it cannot be included
+without scraping its HTML — which breaks whenever the publisher restyles, and is
+not worth doing.
+
+**There is deliberately no fallback.** If a publisher is unreachable, its section
+is omitted. Showing a stale copy of somebody else's news, or an error in place of
+their headlines, would both be worse.
+
+**Headlines are shown exactly as published**, including when they are in full
+capitals. Converting them to title case was tried and removed: it produced
+`31St` and `44Th`, and lowercased ecclesiastical titles into `Mse` and `Emf`.
+The set of acronyms that must survive — CCC titles, agencies, place names — is
+not reliably enumerable, and misrendering a cleric's title is worse than a
+shouted headline.
+
 ### Approving submissions
 
 `scripts/news-approval-app.gs` is a small web app for reviewing submissions: it

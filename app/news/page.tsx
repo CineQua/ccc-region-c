@@ -6,6 +6,7 @@ import {
   PlaceholderNotice,
 } from '@/components/ui/primitives';
 import { ArticleCard } from '@/components/news/article-card';
+import { ExternalNewsSection } from '@/components/news/external-news';
 import { buildMetadata } from '@/lib/metadata';
 import { getLatestNews, newsIsSample } from '@/data/news';
 
@@ -59,6 +60,9 @@ export default async function NewsPage() {
           )}
         </Container>
       </section>
+
+      {/* Other publications' reporting, kept clearly apart from Region C's own. */}
+      <ExternalNewsSection />
     </>
   );
 }

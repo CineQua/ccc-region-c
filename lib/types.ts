@@ -135,6 +135,26 @@ export interface NewsArticle {
   isPlaceholder?: boolean;
 }
 
+/**
+ * An article on another Celestial Church of Christ news site.
+ *
+ * Deliberately not a `NewsArticle`: these are never republished here. Only a
+ * headline, the source's own summary and a link out, so the reader ends up on
+ * the publisher's page and nothing reads as a Region C statement.
+ */
+export interface ExternalArticle {
+  id: string;
+  title: string;
+  /** The article on the publisher's own site. */
+  url: string;
+  /** ISO 8601 date, no time — these are only ever shown as a date. */
+  date: string;
+  excerpt: string;
+  source: string;
+  sourceUrl: string;
+  scope: 'usa' | 'worldwide';
+}
+
 export type NewsCategory =
   | 'Region News'
   | 'Parish News'

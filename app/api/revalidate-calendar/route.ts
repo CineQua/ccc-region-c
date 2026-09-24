@@ -2,6 +2,7 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 import { revalidateTag } from 'next/cache';
 import { CALENDAR_TAG } from '@/lib/calendar';
 import { NEWS_TAG } from '@/lib/news-sheet';
+import { EXTERNAL_NEWS_TAG } from '@/lib/external-news';
 
 /**
  * On-demand refresh of the Google-backed content: the events calendar and the
@@ -15,7 +16,7 @@ import { NEWS_TAG } from '@/lib/news-sheet';
  *
  * It is safe to bookmark on a phone and safe to hit repeatedly: it discards the
  * cached Google responses and nothing else, and the next page view refetches.
- * `?only=calendar` or `?only=news` narrows it to one of the two.
+ * `?only=calendar`, `?only=news` or `?only=external` narrows it to one.
  *
  * Configuration: set `CALENDAR_REVALIDATE_SECRET` to a long random string in the
  * hosting environment. Until it is set the endpoint refuses every request, so a
@@ -66,7 +67,13 @@ function handle(request: Request): Response {
   // served the stale copy it was trying to get rid of.
   const only = url.searchParams.get('only')?.toLowerCase();
   const tags =
-    only === 'calendar' ? [CALENDAR_TAG] : only === 'news' ? [NEWS_TAG] : [CALENDAR_TAG, NEWS_TAG];
+    only === 'calendar'
+      ? [CALENDAR_TAG]
+      : only === 'news'
+        ? [NEWS_TAG]
+        : only === 'external'
+          ? [EXTERNAL_NEWS_TAG]
+          : [CALENDAR_TAG, NEWS_TAG, EXTERNAL_NEWS_TAG];
 
   for (const tag of tags) revalidateTag(tag, { expire: 0 });
 
