@@ -61,13 +61,40 @@ const SOURCES: readonly Source[] = [
   },
 ];
 
+interface WpMediaSize {
+  width?: number;
+  height?: number;
+  source_url?: string;
+}
+
 interface WpPost {
   id?: number;
   date?: string;
   link?: string;
   title?: { rendered?: string };
   excerpt?: { rendered?: string };
+  _embedded?: {
+    'wp:featuredmedia'?: Array<{
+      source_url?: string;
+      media_details?: { sizes?: Record<string, WpMediaSize> };
+    }>;
+  };
 }
+
+/**
+ * Preferred featured-image sizes, squarest and smallest first.
+ *
+ * These are shown as a circle about 56px across, so a square crop the publisher
+ * has already made is both the right shape and a fraction of the bytes: their
+ * `thumbnail` is 150x150 where `full` can be 1290x1641.
+ */
+const THUMBNAIL_SIZES = [
+  'thumbnail',
+  'woocommerce_thumbnail',
+  'jnews-350x350',
+  'woocommerce_gallery_thumbnail',
+  'medium',
+] as const;
 
 /* ------------------------------------------------------------- Fetching --- */
 
@@ -122,7 +149,11 @@ async function readPosts(
   params: Record<string, string>,
 ): Promise<ExternalArticle[]> {
   const url = new URL(`${source.api}/posts`);
-  url.searchParams.set('_fields', 'id,date,link,title,excerpt');
+  // `_embed` attaches the featured image, but only survives `_fields` when
+  // `_links` is kept as well — embedding is driven by the links. With both, the
+  // response is about a quarter the size of an unfiltered one.
+  url.searchParams.set('_embed', 'wp:featuredmedia');
+  url.searchParams.set('_fields', 'id,date,link,title,excerpt,_links,_embedded');
   for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
 
   try {
@@ -166,10 +197,27 @@ function toArticle(
     // WordPress returns a local date-time; only the date is ever displayed.
     date: (post.date ?? '').slice(0, 10) || new Date().toISOString().slice(0, 10),
     excerpt: trimToWord(clean(post.excerpt?.rendered ?? ''), 180),
+    ...(thumbnailOf(post) ? { thumbnail: thumbnailOf(post) } : {}),
     source: source.name,
     sourceUrl: source.home,
     scope,
   };
+}
+
+/** The smallest square featured image, or undefined when the post has none. */
+function thumbnailOf(post: WpPost): string | undefined {
+  const media = post._embedded?.['wp:featuredmedia']?.[0];
+  if (!media) return undefined;
+
+  const sizes = media.media_details?.sizes ?? {};
+  for (const name of THUMBNAIL_SIZES) {
+    const candidate = sizes[name]?.source_url;
+    if (candidate && /^https?:\/\//i.test(candidate)) return candidate;
+  }
+
+  // Falling back to the full-size image is deliberate but a last resort: it is
+  // correct, merely large, and better than a gap where a picture should be.
+  return /^https?:\/\//i.test(media.source_url ?? '') ? media.source_url : undefined;
 }
 
 /** Strips the publisher's markup and decodes the entities WordPress emits. */

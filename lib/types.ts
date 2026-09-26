@@ -150,6 +150,8 @@ export interface ExternalArticle {
   /** ISO 8601 date, no time — these are only ever shown as a date. */
   date: string;
   excerpt: string;
+  /** Small square image from the publisher, when the article has one. */
+  thumbnail?: string;
   source: string;
   sourceUrl: string;
   scope: 'usa' | 'worldwide';

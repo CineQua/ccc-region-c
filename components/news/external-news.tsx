@@ -1,7 +1,7 @@
 import type { ExternalArticle } from '@/lib/types';
 import { Container } from '@/components/ui/container';
 import { SectionHeading } from '@/components/ui/primitives';
-import { IconExternal } from '@/components/ui/icons';
+import { IconDocument, IconExternal } from '@/components/ui/icons';
 import { formatDate, isoDate } from '@/lib/format';
 import { fetchExternalNews } from '@/lib/external-news';
 
@@ -86,36 +86,82 @@ export async function ExternalNewsSection() {
 function ExternalArticleItem({ article }: { article: ExternalArticle }) {
   return (
     <li>
-      <article className="group relative h-full rounded-lg border border-celestial-100 bg-white p-4 transition-colors hover:border-celestial-200">
-        <div className="flex items-center gap-2 text-xs text-celestial-500">
-          <span className="font-medium text-celestial-700">{article.source}</span>
-          <span aria-hidden="true">·</span>
-          <time dateTime={isoDate(article.date)}>{formatDate(article.date)}</time>
+      <article className="group relative flex h-full gap-3.5 rounded-lg border border-celestial-100 bg-white p-4 transition-colors hover:border-celestial-200">
+        <Thumbnail article={article} />
+
+        {/* `min-w-0` so a long headline shrinks rather than widening the card. */}
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-x-2 text-xs text-celestial-500">
+            <span className="font-medium text-celestial-700">{article.source}</span>
+            <span aria-hidden="true">·</span>
+            <time dateTime={isoDate(article.date)}>{formatDate(article.date)}</time>
+          </div>
+
+          <h4 className="mt-1.5 text-base leading-snug font-medium text-celestial-900">
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="before:absolute before:inset-0"
+            >
+              {article.title}
+              <span className="sr-only"> (opens on {article.source})</span>
+            </a>
+          </h4>
+
+          {article.excerpt ? (
+            <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-celestial-600">
+              {article.excerpt}
+            </p>
+          ) : null}
+
+          <span className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-medium text-celestial-700">
+            Read on {article.source}
+            <IconExternal className="h-3.5 w-3.5" />
+          </span>
         </div>
-
-        <h4 className="mt-1.5 text-base leading-snug font-medium text-celestial-900">
-          <a
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="before:absolute before:inset-0"
-          >
-            {article.title}
-            <span className="sr-only"> (opens on {article.source})</span>
-          </a>
-        </h4>
-
-        {article.excerpt ? (
-          <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-celestial-600">
-            {article.excerpt}
-          </p>
-        ) : null}
-
-        <span className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-medium text-celestial-700">
-          Read on {article.source}
-          <IconExternal className="h-3.5 w-3.5" />
-        </span>
       </article>
     </li>
+  );
+}
+
+/**
+ * The publisher's featured image, as a circle.
+ *
+ * A plain `<img>` rather than `next/image`: these are on the publisher's own
+ * domain, and `next/image` throws on a host absent from `images.remotePatterns`
+ * — which would break the page rather than merely omit a picture. The file is
+ * small enough not to need the optimiser, because the adapter asks the
+ * publisher for an already-square thumbnail rather than the full-size image.
+ *
+ * Decorative, so `alt` is empty: the headline beside it carries the meaning,
+ * and the publisher supplies no alt text of their own.
+ *
+ * Articles without a featured image keep the same circle, marked, so rows stay
+ * aligned instead of some starting flush left.
+ */
+function Thumbnail({ article }: { article: ExternalArticle }) {
+  const shape =
+    'h-14 w-14 shrink-0 overflow-hidden rounded-full border border-celestial-200 bg-celestial-50';
+
+  if (!article.thumbnail) {
+    return (
+      <span aria-hidden="true" className={`${shape} flex items-center justify-center`}>
+        <IconDocument className="h-5 w-5 text-celestial-300" />
+      </span>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={article.thumbnail}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      width={56}
+      height={56}
+      className={`${shape} object-cover`}
+    />
   );
 }
