@@ -198,6 +198,7 @@ export const leadership: Leader[] = [
     id: 'david-alabi',
     name: 'David Alabi',
     ecclesiasticalTitle: 'Prophet',
+    image: '/images/prophet-david-alabi.jpg',
     office: 'Youth Representative',
     tier: 'executive',
     portfolio: 'Youth',
