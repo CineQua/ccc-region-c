@@ -7,10 +7,18 @@ import type { Leader } from '@/lib/types';
  * graphic supplied by the Region C Secretariat. Names, ecclesiastical titles and
  * offices are transcribed from that graphic and have not been embellished.
  *
- * One deliberate deviation from the graphic: it prints "RISHARD ANISERE", which
- * the Secretariat has confirmed is a typographical error in the graphic itself.
- * The correct spelling is "Richard Anisere". Do not "correct" this back to match
- * the artwork.
+ * Deliberate deviations from the graphic, each confirmed by the Secretariat as
+ * an error in the artwork rather than here. Do not "correct" these back to
+ * match it:
+ *
+ *   - The graphic prints "RISHARD ANISERE". The correct spelling is
+ *     "Richard Anisere".
+ *   - It prints "ISSAC AWOLOPE" and gives the rank AVSE. He is
+ *     VSE Isaac Awolope (confirmed 2026-09-26), and is the shepherd of
+ *     New Covenant Parish in data/parishes.ts, which must agree.
+ *   - It gives Tunde Clement the rank AVSE. He is VSE Tunde Clement
+ *     (confirmed 2026-09-26), matching his entry as shepherd of Eternal Ark
+ *     of Covenant Parish in data/parishes.ts.
  *
  * Not yet supplied, and therefore intentionally absent rather than invented:
  * biographies, parish/state affiliations and e-mail addresses, and headshots for
@@ -122,9 +130,9 @@ export const leadership: Leader[] = [
     displayOrder: 21,
   },
   {
-    id: 'issac-awolope',
-    name: 'Issac Awolope',
-    ecclesiasticalTitle: 'AVSE',
+    id: 'isaac-awolope',
+    name: 'Isaac Awolope',
+    ecclesiasticalTitle: 'VSE',
     office: 'Shepherd & Grand Patron',
     tier: 'executive',
     portfolio: 'Shepherding',
@@ -133,8 +141,8 @@ export const leadership: Leader[] = [
   {
     id: 'tunde-clement',
     name: 'Tunde Clement',
-    ecclesiasticalTitle: 'AVSE',
-    image: '/images/avse-tunde-clement.jpg',
+    ecclesiasticalTitle: 'VSE',
+    image: '/images/vse-tunde-clement.jpg',
     office: 'Shepherd, Discipline & Reconciliation Chairman',
     tier: 'executive',
     portfolio: 'Shepherding',
