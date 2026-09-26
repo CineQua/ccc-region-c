@@ -58,6 +58,7 @@ export const leadership: Leader[] = [
     id: 'gabriel-shoaga',
     name: 'Gabriel Shoaga',
     ecclesiasticalTitle: 'Snr. Evang.',
+    image: '/images/snr-evang-gabriel-shoaga.jpg',
     office: 'Regional Secretary',
     tier: 'executive',
     portfolio: 'Administration',
