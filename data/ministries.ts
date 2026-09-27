@@ -64,7 +64,7 @@ export const ministries: Ministry[] = [
       'The Youth Department serves young members throughout Region C, creating opportunities for worship, service, leadership and fellowship beyond the individual parish.',
       'It works with parish youth leaders to keep young members connected to the wider region, and to prepare them for service within the church.',
     ],
-    leaderIds: ['aanu-oshuntola', 'kehinde-adebayo', 'david-alabi'],
+    leaderIds: ['aanu-osuntola', 'kehinde-adebayo', 'david-alabi'],
     focusAreas: [
       'Regional youth gatherings and convocations',
       'Leadership development for young members',

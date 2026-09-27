@@ -19,6 +19,8 @@ import type { Leader } from '@/lib/types';
  *   - It gives Tunde Clement the rank AVSE. He is VSE Tunde Clement
  *     (confirmed 2026-09-26), matching his entry as shepherd of Eternal Ark
  *     of Covenant Parish in data/parishes.ts.
+ *   - It prints "OSHUNTOLA" for the Youth Director. The correct spelling is
+ *     "Osuntola", without the h (confirmed 2026-09-26).
  *
  * Not yet supplied, and therefore intentionally absent rather than invented:
  * biographies, parish/state affiliations and e-mail addresses, and headshots for
@@ -177,8 +179,8 @@ export const leadership: Leader[] = [
     displayOrder: 40,
   },
   {
-    id: 'aanu-oshuntola',
-    name: 'Aanu Oshuntola',
+    id: 'aanu-osuntola',
+    name: 'Aanu Osuntola',
     ecclesiasticalTitle: 'MC',
     office: 'Youth Director',
     tier: 'executive',
