@@ -63,16 +63,16 @@ export default function LeadershipPage() {
         ]}
       />
 
-      {/* Principals — given prominence, as the region's two most senior offices. */}
+      {/* Principals — given prominence, as the region's most senior offices. */}
       <section aria-labelledby="principals-heading" className="bg-white py-14 sm:py-16">
         <Container width="wide">
           <SectionHeading
             eyebrow="Regional Office"
-            title="Supervisor & Deputy Supervisor"
-            description="Region C is led by the Regional Supervisor, assisted by the Deputy Regional Supervisor."
+            title="Supervisor, Deputy & Secretary"
+            description="Region C is led by the Regional Supervisor, assisted by the Deputy Regional Supervisor and the Regional Secretary."
             className="mb-8"
           />
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:max-w-3xl">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {principalLeaders.map((leader) => (
               <LeaderCard key={leader.id} leader={leader} variant="principal" />
             ))}

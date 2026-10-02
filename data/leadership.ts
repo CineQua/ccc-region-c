@@ -70,9 +70,9 @@ export const leadership: Leader[] = [
     ecclesiasticalTitle: 'Snr. Evang.',
     image: '/images/snr-evang-gabriel-shoaga.jpg',
     office: 'Regional Secretary',
-    tier: 'executive',
-    // Regional Office rather than Administration, and third in the region
-    // after the Supervisor and his Deputy (confirmed 2026-10-02).
+    // Shown alongside the Supervisor and his Deputy rather than among the wider
+    // executive: the three are the region's principal offices (2026-10-02).
+    tier: 'principal',
     portfolio: 'Regional Office',
     displayOrder: 3,
   },

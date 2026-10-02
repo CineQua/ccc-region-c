@@ -115,12 +115,12 @@ export function LeadershipPreview() {
           }
         />
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {principalLeaders.map((leader) => (
             <LeaderCard key={leader.id} leader={leader} variant="principal" />
           ))}
 
-          <Card className="flex flex-col justify-center p-6 sm:col-span-2 lg:col-span-1">
+          <Card className="flex flex-col justify-center p-6">
             <span
               aria-hidden="true"
               className="flex h-11 w-11 items-center justify-center rounded-md bg-celestial-50 text-celestial-700"
