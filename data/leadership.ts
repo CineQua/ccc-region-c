@@ -71,8 +71,10 @@ export const leadership: Leader[] = [
     image: '/images/snr-evang-gabriel-shoaga.jpg',
     office: 'Regional Secretary',
     tier: 'executive',
-    portfolio: 'Administration',
-    displayOrder: 11,
+    // Regional Office rather than Administration, and third in the region
+    // after the Supervisor and his Deputy (confirmed 2026-10-02).
+    portfolio: 'Regional Office',
+    displayOrder: 3,
   },
   {
     id: 'funke-shoaga',
