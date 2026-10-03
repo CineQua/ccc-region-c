@@ -62,13 +62,17 @@ export const siteConfig = {
   /**
    * Regional contact details.
    *
-   * The telephone number is confirmed (Secretariat, 2026-10-02). The two e-mail
-   * addresses are still proposed: the domain now resolves, but it points at
-   * Vercel and carries no MX records, so nothing can receive mail at it yet.
-   * `isPlaceholder` stays true until they do.
+   * `email` and `phone` are live and confirmed (Secretariat, 2026-10-02).
+   *
+   * `secretariatEmail` is still proposed and CANNOT RECEIVE MAIL:
+   * regionc.cccusadiocese.org resolves, but its CNAME points at Vercel and the
+   * subdomain carries no MX records, so anything sent there bounces. It appears
+   * on the resources page and on every state page as well as on /contact, so it
+   * is worth either giving the subdomain MX records or pointing this at the
+   * working address. `isPlaceholder` stays true until one of those happens.
    */
   contact: {
-    email: 'info@regionc.cccusadiocese.org',
+    email: 'regionc.cccusa@gmail.com',
     secretariatEmail: 'secretariat@regionc.cccusadiocese.org',
     phone: '1-310-422-0694',
     isPlaceholder: true,

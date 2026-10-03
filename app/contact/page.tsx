@@ -69,9 +69,9 @@ export default function ContactPage() {
         <Container width="wide">
           {siteConfig.contact.isPlaceholder ? (
             <PlaceholderNotice className="mb-8">
-              The e-mail addresses shown on this page are proposed addresses for the region and
-              cannot yet receive mail. The Secretariat should replace them, and add a postal
-              address, in{' '}
+              The Secretariat address shown on this page is a proposed address and cannot yet
+              receive mail — the subdomain has no mail records. General enquiries reach the region
+              today. Replace it, and add a postal address, in{' '}
               <code className="rounded bg-white/70 px-1 py-0.5 font-mono text-[0.8125rem]">
                 config/site.ts
               </code>{' '}
