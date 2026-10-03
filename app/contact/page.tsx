@@ -8,6 +8,7 @@ import {
   IconDocument,
   IconExternal,
   IconMail,
+  IconPhone,
   IconUsers,
 } from '@/components/ui/icons';
 import { buildMetadata } from '@/lib/metadata';
@@ -68,9 +69,9 @@ export default function ContactPage() {
         <Container width="wide">
           {siteConfig.contact.isPlaceholder ? (
             <PlaceholderNotice className="mb-8">
-              The e-mail addresses shown on this page are proposed addresses for the region and have
-              not yet been confirmed. The Secretariat should replace them, and add a telephone number
-              and postal address, in{' '}
+              The e-mail addresses shown on this page are proposed addresses for the region and
+              cannot yet receive mail. The Secretariat should replace them, and add a postal
+              address, in{' '}
               <code className="rounded bg-white/70 px-1 py-0.5 font-mono text-[0.8125rem]">
                 config/site.ts
               </code>{' '}
@@ -114,8 +115,21 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <dt className="text-sm text-celestial-500">Telephone</dt>
-                  <dd className="mt-1 text-celestial-700">
-                    {siteConfig.contact.phone || 'To be confirmed'}
+                  <dd className="mt-1">
+                    {siteConfig.contact.phone ? (
+                      <a
+                        href={`tel:${siteConfig.contact.phone.replace(/[^\d+]/g, '')}`}
+                        className="inline-flex items-center gap-2 font-medium text-celestial-900 underline-offset-4 hover:underline"
+                      >
+                        <IconPhone
+                          className="h-4.5 w-4.5 shrink-0 text-celestial-400"
+                          aria-hidden="true"
+                        />
+                        {siteConfig.contact.phone}
+                      </a>
+                    ) : (
+                      <span className="text-celestial-700">To be confirmed</span>
+                    )}
                   </dd>
                 </div>
                 <div>

@@ -60,13 +60,17 @@ export const siteConfig = {
   dioceseUrl: 'https://cccusadiocese.org',
   dioceseName: 'CCC USA Diocese',
   /**
-   * Placeholder regional contact details. Replace with the addresses and numbers
-   * confirmed by the Region C Secretariat before launch.
+   * Regional contact details.
+   *
+   * The telephone number is confirmed (Secretariat, 2026-10-02). The two e-mail
+   * addresses are still proposed: the domain now resolves, but it points at
+   * Vercel and carries no MX records, so nothing can receive mail at it yet.
+   * `isPlaceholder` stays true until they do.
    */
   contact: {
     email: 'info@regionc.cccusadiocese.org',
     secretariatEmail: 'secretariat@regionc.cccusadiocese.org',
-    phone: '',
+    phone: '1-310-422-0694',
     isPlaceholder: true,
   },
   social: {
